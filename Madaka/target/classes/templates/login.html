@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title th:text="${screenName}"></title>
+<link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+<body>
+<div class = 'title'>
+  <h1 th:text="${AppName}"></h1>
+  </div>
+  <p id = name style="text-align: center;">ログイン</p>
+  <div class="login-container">
+  <form class="login-form" action="/login" method="post">
+  	<table>
+		<tr>
+			<td>ログインID</td>
+		</tr>
+		<tr>
+			<td><input type="text" id="loginId" name="loginId" placeholder="ログインIDを入力" required></td>
+		</tr>
+		<tr>
+			<td>パスワード</td>
+		</tr>
+		<tr>
+			<td><input type="password" id="password" name="password" placeholder="パスワードを入力" required></td>
+		</tr>
+		<tr>
+			<td><input type="submit" value="ログイン"></td>
+		</tr>
+	</table>
+  </form>
+  </div>
+</body>
+</html>

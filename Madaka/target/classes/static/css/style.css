@@ -1,0 +1,21 @@
+.title{
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size:30px;
+  line-height: 50px;
+  background-position: top center;
+  background-size: cover;
+  background-color: midnightblue;
+  color: white;
+}
+
+#name {
+  text-align: center;
+  margin: 0;
+  font-size: 1.5em;
+}
+
+.login-container {
+  margin: 0;
+  margin-left: 400px; /* 右にずらす量を調整 */
+}
