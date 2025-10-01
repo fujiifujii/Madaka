@@ -45,6 +45,39 @@
 			</div>
 			<button type="submit">検索</button>
 		</form>
+		<table>
+			<thead>
+				<tr>
+					<th>日付</th>
+					<th>名前</th>
+					<th>遅刻理由</th>
+					<th>路線</th>
+					<th></th> <!-- 詳細ボタン -->
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="r : ${results}">
+					<td th:text="${r.lateDatetime}">日付</td>
+					<td th:text="${r.empName}">名前</td>
+					<td th:text="${r.lateReason}">遅刻理由</td>
+					<td th:text="${r.trainName}">路線</td>
+					<td>
+						<a th:href="@{/detail/{id}(id=${r.id})}">詳細</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+<!-- ページング -->
+	<div>
+		<span th:if="${currentPage > 1}">
+			<a th:href="@{/search(page=${currentPage - 1}, keyword=${searchForm.keyword})}">前へ</a>
+		</span>
+		<span>ページ [[${currentPage}]] / [[${totalPages}]]</span>
+		<span th:if="${currentPage < totalPages}">
+			<a th:href="@{/search(page=${currentPage + 1}, keyword=${searchForm.keyword})}">次へ</a>
+		</span>
 	</div>
 </body>
 </html>

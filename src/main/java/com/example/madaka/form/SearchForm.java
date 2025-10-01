@@ -1,9 +1,7 @@
 package com.example.madaka.form;
 
 import java.time.LocalDate;
-
 import com.example.madaka.util.ReasonType;
-
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.Data;
@@ -37,8 +35,6 @@ public class SearchForm {
 	private String name;
 	/** 遅刻理由 */
 	private ReasonType reason;
-	/** 検索結果リスト */
-	private LocalDate resultList;
 
 	/**
 	 *日付の初期値を当日に設定するコンストラクタ
