@@ -11,13 +11,13 @@
   </div>
   <p id = name style="text-align: center;">ログイン</p>
   <div class="login-container">
-  <form class="login-form" action="/login" method="post">
+  <form class="login-form" th:action="@{login}" method="post" >
   	<table>
 		<tr>
 			<td>ログインID</td>
 		</tr>
 		<tr>
-			<td><input type="text" id="loginId" name="loginId" placeholder="ログインIDを入力" required></td>
+			<td><input type="text" id="empId" name="empId" placeholder="ログインIDを入力" required></td>
 		</tr>
 		<tr>
 			<td>パスワード</td>
