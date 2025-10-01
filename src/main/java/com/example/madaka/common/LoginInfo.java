@@ -8,7 +8,7 @@ import lombok.Data;
  * 取得元は社員マスタとチームマスタ
  */
 @Data
-public class LoginInfoDTO {
+public class LoginInfo {
 
 	/** 社員ID */
 	private String empId;
