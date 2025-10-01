@@ -1,0 +1,29 @@
+.title{
+  margin: 0;
+  font-size:15px;
+  line-height: 50px;
+  background-position: top center;
+  background-size: cover;
+  background-color: midnightblue;
+  color: white;
+}
+.title h1 {
+  margin: 0;
+}
+#name {
+  text-align: center;
+  margin: 0;
+  font-size: 50px;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center; /* 横方向中央揃え */
+  align-items: center;     /* 縦方向中央揃え（必要なら） */
+  flex-direction: column;  /* 子要素を縦並びに */
+  margin-top: 25px;        /* 上に少し余白を追加 */
+}
+.login-form {
+  text-align: center;      /* テーブル内のテキストを中央揃え */
+  font-size: 30px;
+}
