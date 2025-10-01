@@ -11,7 +11,7 @@
 		<h2>検索</h2>
 		<form th:action="@{/search}" th:object="${searchForm}" method="post">
 			<div class="search-date">
-				<label for="date">日付　　</label>
+				<label for="date">日付：</label>
 				<span class="search-date-from">
 					<input type="number" th:field="*{fromYear}" min="1900" max="2100" /><label for="year">年</label>
 					<input type="number" th:field="*{fromMonth}" min="1" max="12" /><label for="month">月</label>
@@ -25,13 +25,22 @@
 				</span>
 			</div>
 			<div class="search-name">
-				<label for="name">氏名</label>
+				<!--/* -->
+				氏名はプルダウンで選択。選択候補は権限ごとに異なる。
+				・低級社員：自分のみ
+				・C/LD：チーム配下メンバー
+				・AMG/MG：全社員
+				あいまい検索できるように、未選択を許容する
+				<!-- */-->
+				<label for="name">氏名：</label>
+				<input type="text" th:field="*{name}" placeholder="ほんとはプルダウン" />
 			</div>
 			<div class="search-reason">
-				<label for="name">遅刻理由</label> <select th:field="*{reason}">
+				<label for="name">遅刻理由：</label> <select th:field="*{reason}">
+					<option value="" th:text="'--選択してください--'" th:if="${searchForm.reason == null}"></option>
 					<option
 						th:each="r : ${T(com.example.madaka.util.ReasonType).values()}"
-						th:value="${r}" th:text="${r.label}">遅刻理由</option>
+						th:value="${r}" th:text="${r.label}"></option>
 				</select>
 			</div>
 			<button type="submit">検索</button>

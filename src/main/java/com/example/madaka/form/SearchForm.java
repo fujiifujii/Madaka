@@ -15,29 +15,29 @@ import lombok.Data;
 @Data
 public class SearchForm {
 
-	// from_年
+	/** from_年 */
 	@Min(1900)
 	private int fromYear;
-	// from_月
+	/** from_月 */
     @Min(1) @Max(12)
 	private int fromMonth;
-	// from_日
+    /** from_日 */
     @Min(1) @Max(31)
 	private int fromDay;
-	// to_年
+    /** to_年 */
     @Min(1900)
 	private int toYear;
-	// to_月
+    /** to_月 */
     @Min(1) @Max(12)
 	private int toMonth;
-	// to_日
+    /** to_日 */
 	@Min(1) @Max(31)
 	private int toDay;
-	// 氏名
+	/** 氏名 */
 	private String name;
-	// 遅刻理由
+	/** 遅刻理由 */
 	private ReasonType reason;
-	// 検索結果リスト
+	/** 検索結果リスト */
 	private LocalDate resultList;
 
 	/**

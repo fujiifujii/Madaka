@@ -5,6 +5,10 @@ import java.time.LocalTime;
 
 import lombok.Data;
 
+/**
+ * @author yu-fujii
+ * 遅刻履歴テーブル
+ */
 @Data
 public class RegisterRepository {
     private String lateId;                 // 遅刻ID
