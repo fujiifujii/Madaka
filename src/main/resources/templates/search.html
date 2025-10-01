@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<meta charset="UTF-8">
+<title>検索画面</title>
+</head>
+<body>
+	<div class="search-container">
+		<h2>検索</h2>
+		<form th:action="@{/search}" th:object="${searchForm}" method="post">
+			<div class="search-date">
+				<label for="date">日付　　</label>
+				<span class="search-date-from">
+					<input type="number" th:field="*{fromYear}" min="1900" max="2100" /><label for="year">年</label>
+					<input type="number" th:field="*{fromMonth}" min="1" max="12" /><label for="month">月</label>
+					<input type="number" th:field="*{fromDay}" min="1" max="31" /><label for="day">日</label>
+				</span>
+				<span>　～　</span>
+				<span class="search-date-to">
+					<input type="number" th:field="*{toYear}" min="1900" max="2100" /><label for="year">年</label>
+					<input type="number" th:field="*{toMonth}" min="1" max="12" /><label for="month">月</label>
+					<input type="number" th:field="*{toDay}" min="1" max="31" /><label for="day">日</label>
+				</span>
+			</div>
+			<div class="search-name">
+				<label for="name">氏名</label>
+			</div>
+			<div class="search-reason">
+				<label for="name">遅刻理由</label> <select th:field="*{reason}">
+					<option
+						th:each="r : ${T(com.example.madaka.util.ReasonType).values()}"
+						th:value="${r}" th:text="${r.label}">遅刻理由</option>
+				</select>
+			</div>
+			<button type="submit">検索</button>
+		</form>
+	</div>
+</body>
+</html>
