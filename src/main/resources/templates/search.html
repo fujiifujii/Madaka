@@ -7,21 +7,22 @@
 <title>検索画面</title>
 </head>
 <body>
+  <h1 th:text="${AppName}"></h1>
 	<div class="search-container">
 		<h2>検索</h2>
-		<form th:action="@{/search}" th:object="${searchForm}" method="post">
+		<form th:action="@{/madaka/search}" th:object="${searchForm}" method="get">
 			<div class="search-date">
 				<label for="date">日付：</label>
 				<span class="search-date-from">
-					<input type="number" th:field="*{fromYear}" min="1900" max="2100" /><label for="year">年</label>
-					<input type="number" th:field="*{fromMonth}" min="1" max="12" /><label for="month">月</label>
-					<input type="number" th:field="*{fromDay}" min="1" max="31" /><label for="day">日</label>
+					<input type="number" th:field="*{fromYear}"  th:value="''" min="1900" max="2100" /><label for="year">年</label>
+					<input type="number" th:field="*{fromMonth}" th:value="''" min="1" max="12" /><label for="month">月</label>
+					<input type="number" th:field="*{fromDay}" th:value="''" min="1" max="31" /><label for="day">日</label>
 				</span>
 				<span>　～　</span>
 				<span class="search-date-to">
-					<input type="number" th:field="*{toYear}" min="1900" max="2100" /><label for="year">年</label>
-					<input type="number" th:field="*{toMonth}" min="1" max="12" /><label for="month">月</label>
-					<input type="number" th:field="*{toDay}" min="1" max="31" /><label for="day">日</label>
+					<input type="number" th:field="*{toYear}" th:value="''" min="1900" max="2100" /><label for="year">年</label>
+					<input type="number" th:field="*{toMonth}" th:value="''" min="1" max="12" /><label for="month">月</label>
+					<input type="number" th:field="*{toDay}" th:value="''" min="1" max="31" /><label for="day">日</label>
 				</span>
 			</div>
 			<div class="search-name">
@@ -31,7 +32,16 @@
 				・C/LD：チーム配下メンバー
 				・AMG/MG：全社員
 				あいまい検索できるように、未選択を許容する
+
+				<select name="employeeId" id="employee">
+					<option value="">--選択してください--</option>
+					<th:block th:each="emp : ${employees}">
+							<option th:value="${emp.id}" th:text="${emp.name}"></option>
+					</th:block>
+				</select>
+
 				<!-- */-->
+
 				<label for="name">氏名：</label>
 				<input type="text" th:field="*{name}" placeholder="ほんとはプルダウン" />
 			</div>

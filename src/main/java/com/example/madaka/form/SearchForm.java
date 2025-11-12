@@ -1,7 +1,9 @@
 package com.example.madaka.form;
 
 import java.time.LocalDate;
+
 import com.example.madaka.util.ReasonType;
+
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import lombok.Data;
@@ -13,24 +15,26 @@ import lombok.Data;
 @Data
 public class SearchForm {
 
+	//NOTE 初期値をnullにしたいのでInteger型にした
+
 	/** from_年 */
 	@Min(1900)
-	private int fromYear;
+	private Integer fromYear;
 	/** from_月 */
     @Min(1) @Max(12)
-	private int fromMonth;
+	private Integer fromMonth;
     /** from_日 */
     @Min(1) @Max(31)
-	private int fromDay;
+	private Integer fromDay;
     /** to_年 */
     @Min(1900)
-	private int toYear;
+	private Integer toYear;
     /** to_月 */
     @Min(1) @Max(12)
-	private int toMonth;
+	private Integer toMonth;
     /** to_日 */
 	@Min(1) @Max(31)
-	private int toDay;
+	private Integer toDay;
 	/** 氏名 */
 	private String name;
 	/** 遅刻理由 */
@@ -44,9 +48,6 @@ public class SearchForm {
         this.fromYear = today.getYear();
         this.fromMonth = today.getMonthValue();
         this.fromDay = today.getDayOfMonth();
-        this.toYear = today.getYear();
-        this.toMonth = today.getMonthValue();
-        this.toDay = today.getDayOfMonth();
     }
 
 

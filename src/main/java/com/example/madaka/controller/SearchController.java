@@ -1,6 +1,7 @@
 package com.example.madaka.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.madaka.common.Const;
 import com.example.madaka.form.SearchForm;
 import com.example.madaka.response.SearchResponse;
 import com.example.madaka.service.SearchService;
@@ -33,8 +35,20 @@ public class SearchController {
 	final private String screenName = "検索画面";
 
 	@GetMapping("/search")
-	public String search(HttpSession session, Model model) {
+	public String search(@RequestParam(required = false) SearchForm form
+						,HttpSession session
+						,Model model) {
+
+		// SearchFormクラスがNULL＝検索画面初期表示の場合
+		if (form != null) {
+
+		}
+
 		model.addAttribute("searchForm", new SearchForm());
+		model.addAttribute("AppName", Const.AppName);
+
+
+
 		return "search";
 	}
 
@@ -61,6 +75,6 @@ public class SearchController {
 	    model.addAttribute("totalPages", totalPages);
 	    model.addAttribute("searchForm", form); // 再表示用
 
-	    return "search";
+	    return "madaka/search";
 	}
 }
