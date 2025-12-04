@@ -7,20 +7,54 @@
 
   <!-- DBカラム名 → Java変数名 のマッピング -->
   <resultMap id="loginMap" type="com.example.madaka.response.LoginResponse">
-    <id property="empId" column="emp_id"/>
-    <result property="empName" column="emp_name"/>
+    <id property="empId" column="EMP_ID"/>
+    <result property="departmentId" column="DEPARTMENT_ID"/>
+    <result property="teamId" column="TEAM_ID"/>
+    <result property="empNo" column="EMP_NO"/>
+    <result property="role" column="ROLE"/>
+    <result property="empLname" column="EMP_LNAME"/>
+    <result property="empFname" column="EMP_FNAME"/>
+    <result property="empLnameKana" column="EMP_LNAME_KANA"/>
+    <result property="empFnameKana" column="EMP_FNAME_KANA"/>
+    <result property="gender" column="GENDER"/>
+    <result property="birthDay" column="BIRTHDAY"/>
+    <result property="startDate" column="START_DATE"/>
+    <result property="belong" column="BELONG"/>
+    <result property="empStatus" column="EMP_STATUS"/>
+    <result property="changeDate" column="CHANGE_DATE"/>
+    <result property="mailAddress" column="MAIL_ADDRESS"/>
   </resultMap>
+
+  <!-- 部署マスタ -->
+  <resultMap id="departmentMasterMap" type="com.example.madaka.repository.DepartmentMaster">
+    <id property="departmentId" column="DEPARTMENT_ID"/>
+    <result property="departmentName" column="DEPARTMENT_NAME"/>
+  </resultMap>
+
+  <!-- チームマスタ -->
+  <resultMap id="teamMasterMap" type="com.example.madaka.repository.TeamMaster">
+    <id property="teamId" column="TEAM_ID"/>
+    <result property="teamName" column="TEAM_NAME"/>
+    <result property="unitNo" column="UNIT_NO"/>
+  </resultMap>
+
+  <!-- 電車マスタ -->
+  <resultMap id="trainMasterMap" type="com.example.madaka.repository.TrainMaster">
+    <id property="trainId" column="TRAIN_ID"/>
+    <result property="trainName" column="TRAIN_NAME"/>
+  </resultMap>
+
   <!-- データ取得 -->
   <select id="login" parameterType="com.example.madaka.mapper.LoginMapper" resultMap="loginMap">
     SELECT * FROM madaka.EMPLOYEE_MST Left JOIN madaka.LOGIN_TBL on EMPLOYEE_MST.emp_id = LOGIN_TBL.emp_id WHERE LOGIN_TBL.emp_id = #{empId} AND LOGIN_TBL.password = #{password}
   </select>
-  <select id="getDepartmentMaster"  resultType="com.example.madaka.repository.DepartmentMaster">
+  <select id="getDepartmentMaster" resultMap="departmentMasterMap"  >
     SELECT * FROM madaka.DEPARTMENT_MST
   </select>
-  <select id="getTeamMaster" resultType="com.example.madaka.repository.TeamMaster">
+  <select id="getTeamMaster" resultMap="teamMasterMap">
     SELECT * FROM madaka.TEAM_MST
   </select>
-  <select id="getTrainMaster" resultType="com.example.madaka.repository.TrainMaster">
+  <select id="getTrainMaster" resultMap="trainMasterMap">
     SELECT * FROM madaka.TRAIN_MST
   </select>
 
