@@ -1,15 +1,15 @@
 package com.example.madaka.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 
 import com.example.madaka.form.LoginForm;
+import com.example.madaka.response.LoginResponse;
 
 
 @Mapper
 public interface LoginMapper {
 
-	User login(LoginForm form);
+	LoginResponse login(LoginForm form);
 }
 
 

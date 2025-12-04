@@ -5,8 +5,8 @@
 
 <mapper namespace="com.example.madaka.mapper.LoginMapper">
 
-  <select id="login" parameterType="com.example.madaka.mapper.LoginMapper">
-    SELECT * FROM LOGIN_TBL WHERE emp_id = #{empId} AND password = #{password}
+  <select id="login" parameterType="com.example.madaka.mapper.LoginMapper" resultType="com.example.madaka.response.LoginResponse">
+    SELECT * FROM madaka.EMPLOYEE_MST Left JOIN madaka.LOGIN_TBL on EMPLOYEE_MST.emp_id = LOGIN_TBL.emp_id WHERE LOGIN_TBL.emp_id = #{empId} AND LOGIN_TBL.password = #{password}
   </select>
 
 </mapper>
