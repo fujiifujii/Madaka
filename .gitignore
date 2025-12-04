@@ -1,2 +1,10 @@
 # Maven
 target/
+.classpath
+*.class
+*.properties
+.gitignore
+.project
+*.prefs
+.reloadtrigger
+target/
