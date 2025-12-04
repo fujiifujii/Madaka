@@ -10,7 +10,7 @@
   <h1 th:text="${AppName}"></h1>
 	<div class="search-container">
 		<h2>検索</h2>
-		<form th:action="@{/madaka/search}" th:object="${searchForm}" method="get">
+		<form th:action="@{/madaka/search}" th:object="${searchForm}" method="post">
 			<div class="search-date">
 				<label for="date">日付：</label>
 				<span class="search-date-from">
@@ -67,12 +67,13 @@
 			</thead>
 			<tbody>
 				<tr th:each="r : ${results}">
-					<td th:text="${r.lateDatetime}">日付</td>
-					<td th:text="${r.empName}">名前</td>
-					<td th:text="${r.lateReason}">遅刻理由</td>
-					<td th:text="${r.trainName}">路線</td>
+					<td th:text="${r.late_datetime}">日付</td>
+					<td th:text="${r.emp_name}">名前</td>
+					<td th:text="${r.late_reason}">遅刻理由</td>
+					<td th:text="${r.train_name}">路線</td>
 					<td>
-						<a th:href="@{/detail/{id}(id=${r.id})}">詳細</a>
+						<a th:href="@{/detail}">詳細</a>
+<!-- 						<a th:href="@{/detail/{id}(id=${r.id})}">詳細</a> -->
 					</td>
 				</tr>
 			</tbody>

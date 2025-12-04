@@ -42,6 +42,8 @@ public class SearchController {
 		// SearchFormクラスがNULL＝検索画面初期表示の場合
 		if (form != null) {
 
+		} else {
+
 		}
 
 		model.addAttribute("searchForm", new SearchForm());
@@ -52,6 +54,7 @@ public class SearchController {
 		return "search";
 	}
 
+	// 検索ボタン押下
 	@PostMapping("/search")
 	public String doSearch(@ModelAttribute("searchForm") SearchForm form,
 							@RequestParam(defaultValue = "1") int page,
@@ -75,6 +78,6 @@ public class SearchController {
 	    model.addAttribute("totalPages", totalPages);
 	    model.addAttribute("searchForm", form); // 再表示用
 
-	    return "madaka/search";
+	    return "search";
 	}
 }
