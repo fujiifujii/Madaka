@@ -10,12 +10,12 @@ public class RegisterForm {
 
 	// 日付
 	private LocalDate date;
-	// 社員名
-	private String empName;
+	// 社員ID
+	private String empId;
 	// 遅刻理由
 	private String lateReason;
-	// 路線名
-	private String lineName;
+    // 電車ID
+    private String trainId;
 	// 遅刻時間
 	private Integer delayMinutes;
 	// 始業時間
