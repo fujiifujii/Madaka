@@ -5,16 +5,22 @@
 
 <mapper namespace="com.example.madaka.mapper.LoginMapper">
 
-  <select id="login" parameterType="com.example.madaka.mapper.LoginMapper" resultType="com.example.madaka.response.LoginResponse">
+  <!-- DBカラム名 → Java変数名 のマッピング -->
+  <resultMap id="loginMap" type="com.example.madaka.response.LoginResponse">
+    <id property="empId" column="emp_id"/>
+    <result property="empName" column="emp_name"/>
+  </resultMap>
+  <!-- データ取得 -->
+  <select id="login" parameterType="com.example.madaka.mapper.LoginMapper" resultMap="loginMap">
     SELECT * FROM madaka.EMPLOYEE_MST Left JOIN madaka.LOGIN_TBL on EMPLOYEE_MST.emp_id = LOGIN_TBL.emp_id WHERE LOGIN_TBL.emp_id = #{empId} AND LOGIN_TBL.password = #{password}
   </select>
-  <select id="getDepartmentMaster" parameterType="com.example.madaka.mapper.LoginMapper" resultType="com.example.madaka.repository.DepartmentMaster">
+  <select id="getDepartmentMaster"  resultType="com.example.madaka.repository.DepartmentMaster">
     SELECT * FROM madaka.DEPARTMENT_MST
   </select>
-  <select id="getTeamMaster" parameterType="com.example.madaka.mapper.LoginMapper" resultType="com.example.madaka.repository.TeamMaster">
+  <select id="getTeamMaster" resultType="com.example.madaka.repository.TeamMaster">
     SELECT * FROM madaka.TEAM_MST
   </select>
-  <select id="getTrainMaster" parameterType="com.example.madaka.mapper.LoginMapper" resultType="com.example.madaka.repository.TrainMaster">
+  <select id="getTrainMaster" resultType="com.example.madaka.repository.TrainMaster">
     SELECT * FROM madaka.TRAIN_MST
   </select>
 
