@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>メインメニュー</title>
+<meta charset="UTF-8">
+<title>メインメニュー</title>
+<link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-    <h1>メインメニュー</h1>
+	<div class='title'>
+		<h1 th:text="メインメニュー"></h1>
+	</div>
+	<a th:href="@{/search}">検索</a>
+	<a th:href="@{/register}">登録</a>
 </body>
 </html>
