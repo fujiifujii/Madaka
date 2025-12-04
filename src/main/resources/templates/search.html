@@ -10,7 +10,7 @@
   <h1 th:text="${AppName}"></h1>
 	<div class="search-container">
 		<h2>検索</h2>
-		<form th:action="@{/madaka/search}" th:object="${searchForm}" method="post">
+		<form th:action="@{/search}" th:object="${searchForm}" method="post">
 			<div class="search-date">
 				<label for="date">日付：</label>
 				<span class="search-date-from">
