@@ -40,9 +40,9 @@ public class LoginController {
 	public String login( Model model,@ModelAttribute LoginForm form, HttpSession session) {
 		loginInfo(form, session);
 		if (session.getAttribute("loginUser") == null) {
-			//form
 			model.addAttribute("screenName", Const.screenName);
 			model.addAttribute("AppName", Const.AppName);
+			model.addAttribute("empId", form.getEmpId());
 			return "login";
 		}
 		return "main";
