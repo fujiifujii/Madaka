@@ -8,5 +8,14 @@
   <select id="login" parameterType="com.example.madaka.mapper.LoginMapper" resultType="com.example.madaka.response.LoginResponse">
     SELECT * FROM madaka.EMPLOYEE_MST Left JOIN madaka.LOGIN_TBL on EMPLOYEE_MST.emp_id = LOGIN_TBL.emp_id WHERE LOGIN_TBL.emp_id = #{empId} AND LOGIN_TBL.password = #{password}
   </select>
+  <select id="getDepartmentMaster" parameterType="com.example.madaka.mapper.LoginMapper" resultType="com.example.madaka.repository.DepartmentMaster">
+    SELECT * FROM madaka.DEPARTMENT_MST
+  </select>
+  <select id="getTeamMaster" parameterType="com.example.madaka.mapper.LoginMapper" resultType="com.example.madaka.repository.TeamMaster">
+    SELECT * FROM madaka.TEAM_MST
+  </select>
+  <select id="getTrainMaster" parameterType="com.example.madaka.mapper.LoginMapper" resultType="com.example.madaka.repository.TrainMaster">
+    SELECT * FROM madaka.TRAIN_MST
+  </select>
 
 </mapper>
