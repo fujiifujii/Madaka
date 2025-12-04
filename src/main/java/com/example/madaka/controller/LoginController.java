@@ -39,11 +39,16 @@ public class LoginController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login( Model model,@ModelAttribute LoginForm form, HttpSession session) {
 		loginInfo(form, session);
-		System.out.println(session.getAttribute("trains"));
-		return "login2";
+		if (session.getAttribute("loginUser") == null) {
+			//form
+			model.addAttribute("screenName", Const.screenName);
+			model.addAttribute("AppName", Const.AppName);
+			return "login";
+		}
+		return "main";
 	}
 	@ResponseBody
-	public String loginInfo(@ModelAttribute LoginForm form, HttpSession session) {
+	public  void loginInfo(@ModelAttribute LoginForm form, HttpSession session) {
 		LoginResponse response = loginService.login(form);
 		List<DepartmentMaster> departmentMaster = loginService.getDepartmentMaster();
 		List<TeamMaster> teamMaster = loginService.getTeamMaster();
@@ -58,8 +63,7 @@ public class LoginController {
             session.setAttribute("teams", teamMaster );
             session.setAttribute("trains", trainMaster);
         }
-        System.out.println(session.getAttribute("trains"));
-        return "result";
+
     }
 
 }
