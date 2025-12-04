@@ -6,7 +6,7 @@
 <mapper namespace="com.example.madaka.mapper.RegisterMapper">
 
   <!-- 1件登録 -->
-  <insert id="insert" parameterType="com.example.madaka.mapper.RegisterRepository">
+  <insert id="insert" parameterType="com.example.madaka.mapper.RegisterMapper">
     INSERT INTO LATE_HIS_TBL
       (LATE_ID, EMP_ID, LATE_DATETIME, LATE_REASON, LATE_MIN,
        TRAIN_DELAY_MIN, TRAIN_ID, START_TIME, UPDATE_DATETIME, NOTE)

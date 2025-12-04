@@ -1,18 +1,15 @@
 package com.example.madaka.mapper;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.springframework.boot.autoconfigure.security.SecurityProperties.User;
 
-import com.example.madaka.repository.UserMaster;
+import com.example.madaka.form.LoginForm;
 
 
 @Mapper
 public interface LoginMapper {
-	@Select("SELECT * FROM UserMaster")
-    List<UserMaster> select();
 
+	User login(LoginForm form);
 }
 
 
