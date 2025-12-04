@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class TrainMaster {
-	private String trainId;
-	private String trainName;
+	private String train_Id;
+	private String train_Name;
 }
