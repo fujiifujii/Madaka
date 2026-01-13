@@ -5,6 +5,31 @@
 
 <mapper namespace="com.example.madaka.mapper.SearchMapper">
 
+	<select id="findUserNameForSearch"
+		parameterType="com.example.madaka.mapper.SearchMapper"
+		resultType="com.example.madaka.controller.SearchController$SelectOption">
+		SELECT
+			ROW_NUMBER() OVER (ORDER BY e.emp_id) AS value,
+			CONCAT(e.emp_lname, e.emp_fname) AS lavel
+		FROM
+			madaka.employee_mst e
+			LEFT JOIN madaka.team_mst t ON e.team_id = t.team_id
+		WHERE
+		    (
+		        /* ① リーダー or チーフ → 同じチームの社員 */
+				(#{role} IN ('2', '3')
+					AND e.team_id = #{teamId}
+				)
+		        OR
+		        /* ② マネージャー or アシスタントマネージャー → 同じユニットの社員 */
+				(#{role} IN ('4', '5')
+		            AND t.unit_no = #{unitNo}
+		        )
+		        OR
+		        /* ③ 部署が総務 → 全取得 */
+		        (#{departmentId} = '0')
+		    );
+	</select>
 	<select id="search"
 		parameterType="com.example.madaka.mapper.SearchMapper"
 		resultType="com.example.madaka.response.SearchResponse">

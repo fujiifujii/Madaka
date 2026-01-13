@@ -26,27 +26,18 @@
 				</span>
 			</div>
 			<div class="search-name">
-				<!--/* -->
-				氏名はプルダウンで選択。選択候補は権限ごとに異なる。
-				・低級社員：自分のみ
-				・C/LD：チーム配下メンバー
-				・AMG/MG：全社員
-				あいまい検索できるように、未選択を許容する
-
-				<select name="employeeId" id="employee">
-					<option value="">--選択してください--</option>
-					<th:block th:each="emp : ${employees}">
-							<option th:value="${emp.id}" th:text="${emp.name}"></option>
-					</th:block>
-				</select>
-
-				<!-- */-->
-
 				<label for="name">氏名：</label>
-				<input type="text" th:field="*{name}" placeholder="ほんとはプルダウン" />
+				<select name="employeeId" id="employees">
+					<option value="">-- 未選択 --</option>
+					<option th:each="opt : ${employees}"
+					th:value="${opt.value}"
+					th:text="${opt.label}">
+					</option>
+				</select>
 			</div>
 			<div class="search-reason">
-				<label for="name">遅刻理由：</label> <select th:field="*{reason}">
+				<label for="name">遅刻理由：</label>
+				<select th:field="*{reason}">
 					<option value="" th:text="'--選択してください--'" th:if="${searchForm.reason == null}"></option>
 					<option
 						th:each="r : ${T(com.example.madaka.util.ReasonType).values()}"

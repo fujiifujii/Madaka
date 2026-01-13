@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.madaka.common.Const;
 import com.example.madaka.form.SearchForm;
+import com.example.madaka.response.LoginResponse;
 import com.example.madaka.response.SearchResponse;
 import com.example.madaka.service.SearchService;
 
@@ -32,10 +33,17 @@ public class SearchController {
 	/** 画面名 */
 	final private String screenName = "検索画面";
 
-	@GetMapping("/search")
+	@GetMapping("/madaka/search")
 	public String search(@RequestParam(required = false) SearchForm form
 						,HttpSession session
 						,Model model) {
+
+		// セッションからログインユーザー情報を取得
+		LoginResponse loginInfo = (LoginResponse) session.getAttribute("loginUser");
+		//プルダウンに表示するユーザ名を取得
+		List<SelectOption> employees = searchService.findUserNameForSearch(loginInfo);
+
+        model.addAttribute("employees", employees);
 
 		// SearchFormクラスがNULL＝検索画面初期表示の場合
 		if (form != null) {
@@ -46,8 +54,6 @@ public class SearchController {
 
 		model.addAttribute("searchForm", new SearchForm());
 		model.addAttribute("AppName", Const.AppName);
-
-
 
 		return "search";
 	}
@@ -78,4 +84,20 @@ public class SearchController {
 
 	    return "search";
 	}
+
+
+    /** プルダウン用の軽量 DTO（クラス内クラス） */
+    public static class SelectOption {
+        private Integer value;
+        private String label;
+
+        public SelectOption(Integer value, String label) {
+            this.value = value;
+            this.label = label;
+        }
+
+        public Integer getValue() { return value; }
+        public String getLabel() { return label; }
+    }
+
 }
