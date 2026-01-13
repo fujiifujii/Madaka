@@ -27,3 +27,61 @@
   text-align: center;      /* テーブル内のテキストを中央揃え */
   font-size: 30px;
 }
+
+header {
+  display: flex;
+  justify-content: space-between; /* 左右に配置 */
+  align-items: center;
+  padding: 10px;
+}
+
+
+/* ハンバーガーアイコン */
+.hamburger {
+  width: 30px;
+  cursor: pointer;
+}
+.hamburger span {
+  display: block;
+  height: 3px;
+  background: #333;
+  margin: 6px 0;
+  transition: 0.3s;
+}
+
+/* オーバーレイ（背景の黒い半透明） */
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s ease;
+  z-index: 1000;
+}
+
+/* overlay 表示 */
+#overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 初期状態：右側に隠す */
+#nav {
+  position: fixed;
+  top: 0;
+  right: -250px;
+  width: 250px;
+  height: 100%;
+  background: white;
+  transition: 0.3s ease;
+  z-index: 1001;
+}
+
+/* active で右から出てくる */
+#nav.active {
+  right: 0;
+}
