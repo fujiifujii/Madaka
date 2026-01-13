@@ -14,7 +14,7 @@ import com.example.madaka.response.LoginResponse;
 @Service
 public class LoginService {
 
-	 private static LoginMapper loginMapper;
+	 private  LoginMapper loginMapper;
 
 	    public LoginService(LoginMapper loginMapper) {
 	        this.loginMapper = loginMapper;
