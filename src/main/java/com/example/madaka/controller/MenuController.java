@@ -4,9 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class MainController {
-	@RequestMapping("/main")
+public class MenuController {
+	@RequestMapping("/menu")
 	public String main(){
-		return "main";
+		return "menu";
 	}
 }
