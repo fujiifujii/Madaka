@@ -20,4 +20,5 @@ public class LoginResponse {
 	private String empStatus;
 	private String changeDate;
 	private String mailAddress;
+	private String unitNo;
 }

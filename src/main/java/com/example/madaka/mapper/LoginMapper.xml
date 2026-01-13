@@ -23,6 +23,7 @@
     <result property="empStatus" column="EMP_STATUS"/>
     <result property="changeDate" column="CHANGE_DATE"/>
     <result property="mailAddress" column="MAIL_ADDRESS"/>
+    <result property="unitNo" column="UNIT_NO"/>
   </resultMap>
 
   <!-- 部署マスタ -->
@@ -46,7 +47,7 @@
 
   <!-- データ取得 -->
   <select id="login" parameterType="com.example.madaka.mapper.LoginMapper" resultMap="loginMap">
-    SELECT * FROM madaka.EMPLOYEE_MST Left JOIN madaka.LOGIN_TBL on EMPLOYEE_MST.emp_id = LOGIN_TBL.emp_id WHERE LOGIN_TBL.emp_id = #{empId} AND LOGIN_TBL.password = #{password}
+    SELECT * FROM madaka.EMPLOYEE_MST LEFT JOIN madaka.LOGIN_TBL on EMPLOYEE_MST.emp_id = LOGIN_TBL.emp_id LEFT JOIN TEAM_MST on EMPLOYEE_MST.team_id = TEAM_MST.team_id WHERE LOGIN_TBL.emp_id = #{empId} AND LOGIN_TBL.password = #{password}
   </select>
   <select id="getDepartmentMaster" resultMap="departmentMasterMap"  >
     SELECT * FROM madaka.DEPARTMENT_MST
