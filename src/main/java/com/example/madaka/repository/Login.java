@@ -5,7 +5,7 @@ import lombok.Data;
 
 
 @Data
-public class UserMaster {
+public class Login {
 	private String empId;
 	private String password;
 }

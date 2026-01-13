@@ -13,27 +13,27 @@ import lombok.Data;
 public class SearchResponse {
 
 	/** 遅刻ID */
-    private String late_id;
+    private String lateId;
     /** 社員ID */
-    private String emp_id;
+    private String empId;
     /** 社員氏名 */
-    private String emp_name;
+    private String empName;
     /** 遅刻日時 */
-    private LocalDateTime late_datetime;
+    private LocalDateTime lateDatetime;
     /** 遅刻理由 */
-    private String late_reason;
+    private String lateReason;
     /** 遅刻分数 */
-    private Integer late_min;
+    private Integer lateMin;
     /** 電車遅延分数 */
-    private Integer train_delay_min;
+    private Integer trainDelayMin;
     /** 電車ID */
     private String train;
     /** 電車名 */
-    private String train_name;
+    private String trainName;
     /** 始業時間 */
-    private LocalTime start_time;
+    private LocalTime startTime;
     /** 更新日時 */
-    private LocalDateTime update_datetime;
+    private LocalDateTime updateDatetime;
     /** 備考 */
     private String note;
 }
