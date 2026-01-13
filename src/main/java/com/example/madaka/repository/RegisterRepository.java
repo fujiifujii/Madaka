@@ -11,14 +11,24 @@ import lombok.Data;
  */
 @Data
 public class RegisterRepository {
-    private String lateId;                 // 遅刻ID
-    private String empId;                  // 社員ID
-    private LocalDateTime lateDatetime;    // 遅刻日時
-    private String lateReason;             // 遅刻理由
-    private Integer lateMin;               // 遅刻分数
-    private Integer trainDelayMin;         // 電車遅延分数
-    private String trainId;                // 電車ID
-    private LocalTime startTime;           // 始業時間
-    private LocalDateTime updateDatetime;  // 更新日時
-    private String note;                   // 備考
+	/** 遅刻ID */
+    private String lateId;
+    /** 社員ID */
+    private String empId;
+    /** 遅刻日時 */
+    private LocalDateTime lateDatetime;
+    /** 遅刻理由 */
+    private String lateReason;
+    /** 遅刻分数 */
+    private Integer lateMin;
+    /** 電車遅延分数 */
+    private Integer trainDelayMin;
+    /** 電車ID */
+    private String trainId;
+    /** 始業時間 */
+    private LocalTime startTime;
+    /** 更新日時 */
+    private LocalDateTime updateDatetime;
+    /** 備考 */
+    private String note;
 }
