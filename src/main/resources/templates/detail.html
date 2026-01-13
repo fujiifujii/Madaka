@@ -12,89 +12,41 @@
     <div class="app-header__title">勤怠連絡システム</div>
   </header>
 
-  <!-- ハンバーガー画像（Spring 静的配信を使用） -->
-  <img class="hamburger-img" th:src="@{/img/hanbergar.png}" alt="メニュー" id="menu-image" />
-  <img id="menuImage" class="menu-image" th:src="@{/img/hanbergarlist.jpg}" alt="メニュー一覧" hidden />
-
   <main class="page">
     <h2 class="section-title">詳細</h2>
 
-<!--     フォーム: registerModel とバインド -->
-<!--     <form th:action="@{/register}" th:object="${registerModel}" method="post" class="form"> -->
-<!--       <label for="date">日付</label> -->
-<!--       <input id="date" type="date" class="input" th:field="*{date}" /> -->
-<!--       <div></div> -->
+    <!-- 登録データ表示フォーム（編集不可） -->
+    <form class="form">
+      <label for="date">日付</label>
+      <input id="date" type="date" class="input" th:value="${registerModel.date}" disabled />
+      <div></div>
 
-<!--       <label for="emp">社員名</label> -->
-<!--       <select id="emp" class="input" th:field="*{empName}"> -->
-<!--         <option value="">選択してください</option> -->
-<!--         <option value="田中太郎">田中太郎</option> -->
-<!--         <option value="田中次郎">田中次郎</option> -->
-<!--       </select> -->
-<!--       <div></div> -->
+      <label for="reason">遅刻理由</label>
+      <input id="reason" type="text" class="input" th:value="${registerModel.reason}" disabled />
+      <div></div>
 
-<!--       <label for="reason">遅刻理由</label> -->
-<!--       <select id="reason" class="input" th:field="*{reason}"> -->
-<!--         <option value="">選択してください</option> -->
-<!--         <option value="train-delay">電車遅延</option> -->
-<!--         <option value="health-issue">体調不良</option> -->
-<!--         <option value="other">その他</option> -->
-<!--       </select> -->
-<!--       <div></div> -->
+      <label for="line">路線名</label>
+      <input id="line" type="text" class="input" th:value="${registerModel.trainId}" disabled />
+      <div></div>
 
-<!--       <label for="line">路線名</label> -->
-<!-- <input id="line" type="text" class="input" placeholder="例）山手線" -->
-<!--        th:field="*{lineName}" -->
-<!--        th:disabled="${registerModel.reason != 'train-delay'}" /> -->
-<!--       <div></div> -->
+      <label for="delay-min">遅延時間</label>
+      <input id="delay-min" type="text" class="input" th:value="${registerModel.delayMinutes} + ' 分'" disabled />
+      <div></div>
 
-<!--       <label for="delay-min">遅延時間</label> -->
-<!-- <input id="delay-min" type="number" class="input" inputmode="numeric" placeholder="0" -->
-<!--        th:field="*{delayMinutes}" -->
-<!--        th:disabled="${registerModel.reason != 'train-delay'}" /> -->
-<!--       <div class="unit">分</div> -->
+      <label for="start-time">始業時間</label>
+      <input id="start-time" type="time" class="input" th:value="${registerModel.startTime}" disabled />
+      <div></div>
 
-<!--       <label for="start-time">始業時間</label> -->
-<!--       <input id="start-time" type="time" class="input" th:field="*{startTime}" /> -->
-<!--       <div class="unit">分</div> -->
+      <label for="note">備考</label>
+      <textarea id="note" class="input" th:text="${registerModel.note}" disabled></textarea>
+      <div></div>
 
-<!--       <label for="note">備考</label> -->
-<!--       <textarea id="note" class="input" placeholder="備考を入力" th:field="*{note}"></textarea> -->
-<!--       <div></div> -->
-
-<!--       <div class="actions single" style="grid-column: 1 / -1; margin-top: 8px;"> -->
-<!--         <button type="submit" class="btn">登録</button> -->
-<!--       </div> -->
-<!--     </form> -->
-<!--   </main> -->
-
-<!--   <script> -->
-//     // 遅刻理由による活性/非活性制御（クライアント側）
-//     (function () {
-//       const reason   = document.getElementById('reason');
-//       const line     = document.getElementById('line');
-//       const delayMin = document.getElementById('delay-min');
-
-//       function applyEnableState() {
-//         const isTrainDelay = reason.value === 'train-delay';
-//         line.disabled = !isTrainDelay;
-//         delayMin.disabled = !isTrainDelay;
-//         if (!isTrainDelay) { line.value = ''; delayMin.value = ''; }
-//       }
-//       reason.addEventListener('change', applyEnableState);
-//       // 初期表示時にも適用（サーバ側 disabled と二重で安全）
-//       applyEnableState();
-//     })();
-
-//     // ハンバーガー画像クリックでメニュー画像表示/非表示切り替え
-//     (function () {
-//       const btn  = document.getElementById('hamburgerBtn');
-//       const menuImage = document.getElementById('menuImage');
-//       btn.addEventListener('click', () => { menuImage.hidden = !menuImage.hidden; });
-//       document.addEventListener('click', (e) => {
-//         if (!menuImage.hidden && e.target !== btn && e.target !== menuImage) { menuImage.hidden = true; }
-//       });
-//     })();
-<!--   </script> -->
+      <!-- 更新ボタンと到着ボタン -->
+      <div class="actions" style="grid-column: 1 / -1; margin-top: 8px; display: flex; justify-content: center; gap: 12px;">
+        <button type="button" class="btn">更新</button>
+        <button type="button" class="btn">到着</button>
+      </div>
+    </form>
+  </main>
 </body>
 </html>
