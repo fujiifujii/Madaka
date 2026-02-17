@@ -6,6 +6,21 @@
 <title>勤怠連絡システム</title>
 <link th:href="@{/css/style.css}" rel="stylesheet">
 <link rel="stylesheet" th:href="@{../static/css/detail_regist.css}" />
+<style>
+  .page {
+    padding-left: 20px;
+  }
+
+  .form {
+    max-width: 760px;
+  }
+
+  .form label,
+  .form .input,
+  .form .btn {
+    font-size: 1.05rem;
+  }
+</style>
 </head>
 <body>
   <div th:replace="header :: header"></div>
@@ -54,7 +69,7 @@
       <br>
 
       <label for="start-time">始業時間</label>
-      <input id="start-time" type="time" class="input" th:field="*{startTime}" />
+      <input id="start-time" type="time" class="input" name="startTime" th:value="${initialStartTime}" />
       <br>
 
       <label for="note">備考</label>
@@ -91,6 +106,7 @@
       const date = document.getElementById('date');
       const empName = document.getElementById('empName');
       const lateReason = document.getElementById('lateReason');
+      const line = document.getElementById('line');
 
       if (!date.value) {
         alert('日付を入力してください。');
@@ -107,6 +123,12 @@
       if (!lateReason.value) {
         alert('遅刻理由を入力してください。');
         lateReason.focus();
+        return false;
+      }
+
+      if (lateReason.value === '1' && !line.value) {
+        alert('路線名を選択してください。');
+        line.focus();
         return false;
       }
 

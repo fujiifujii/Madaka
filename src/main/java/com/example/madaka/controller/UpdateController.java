@@ -28,8 +28,11 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/madaka")
 public class UpdateController {
+	// 日付入力許容フォーマット（画面入力の揺れを吸収）
 	private static final DateTimeFormatter SLASH_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	private static final DateTimeFormatter HYPHEN_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	// DBのTIME値を画面表示（HH:mm）に合わせる
+	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 	private static final String ROLE_GENERAL_EMPLOYEE = "1";
 	private static final String ROLE_CHIEF = "2";
 	private static final String ROLE_LEADER = "3";
@@ -44,12 +47,15 @@ public class UpdateController {
 		this.loginService = loginService;
 	}
 
+	// 詳細画面から遷移した更新画面の初期表示
 	@PostMapping("/update")
 	public String showUpdate(@RequestParam("lateId") String lateId,
 	                         Model model,
 	                         HttpSession session) {
+		// 登録画面と同じ社員プルダウン制御を適用
 		prepareRegisterLikeScreenModel(model, session);
 
+		// 遅刻IDで対象データを取得
 		RegisterRepository registerData = updateService.findByLateId(lateId);
 		if (registerData == null) {
 			model.addAttribute("errorMessage", "対象データが見つかりません。");
@@ -73,9 +79,14 @@ public class UpdateController {
 		updateModel.setNote(registerData.getNote());
 
 		model.addAttribute("updateModel", updateModel);
+		// START_TIME(TIME) を画面入力用 HH:mm 文字列に変換
+		model.addAttribute("initialStartTime", registerData.getStartTime() != null
+			? registerData.getStartTime().format(TIME_FORMATTER)
+			: "");
 		return "update";
 	}
 
+	// 更新ボタン押下時のDB更新処理
 	@PostMapping("/update/submit")
 	public String submitUpdate(UpdateForm form,
 	                           HttpSession session) {
@@ -95,6 +106,7 @@ public class UpdateController {
 		return "redirect:/madaka/detail";
 	}
 
+	// 社員名プルダウンの活性/候補をログイン権限で制御
 	private void prepareRegisterLikeScreenModel(Model model, HttpSession session) {
 		List<TrainMaster> trainMaster = loginService.getTrainMaster();
 		if (trainMaster != null) {
@@ -171,6 +183,7 @@ public class UpdateController {
 		model.addAttribute("employeeList", filteredEmployeeList);
 	}
 
+	// 日付文字列を LocalDate に変換
 	private LocalDate parseDate(String dateText) {
 		if (dateText == null || dateText.isBlank()) {
 			return null;
