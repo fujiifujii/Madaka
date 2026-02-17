@@ -31,7 +31,7 @@
       <div></div>
 
       <label for="delay-min">遅延時間</label>
-      <input id="delay-min" type="text" class="input" th:value="${registerModel.trainDelayMinutes} + ' 分'" disabled />
+      <input id="delay-min" type="text" class="input" th:value="|${registerModel.trainDelayMinutes} 分|" disabled />
       <div></div>
 
       <label for="start-time">始業時間</label>
