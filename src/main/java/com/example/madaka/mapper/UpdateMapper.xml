@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.madaka.mapper.UpdateMapper">
+
+  <resultMap id="registerRepositoryMap" type="com.example.madaka.repository.RegisterRepository">
+    <id property="lateId" column="LATE_ID"/>
+    <result property="empId" column="EMP_ID"/>
+    <result property="lateDatetime" column="LATE_DATETIME"/>
+    <result property="lateReason" column="LATE_REASON"/>
+    <result property="lateMin" column="LATE_MIN"/>
+    <result property="trainDelayMin" column="TRAIN_DELAY_MIN"/>
+    <result property="trainId" column="TRAIN_ID"/>
+    <result property="startTime" column="START_TIME"/>
+    <result property="updateDatetime" column="UPDATE_DATETIME"/>
+    <result property="note" column="NOTE"/>
+  </resultMap>
+
+  <select id="selectByLateId" resultMap="registerRepositoryMap">
+    SELECT
+      late_id,
+      emp_id,
+      late_datetime,
+      late_reason,
+      late_min,
+      train_delay_min,
+      train_id,
+      start_time,
+      update_datetime,
+      note
+    FROM madaka.late_his_tbl
+    WHERE late_id = #{lateId}
+  </select>
+
+</mapper>
