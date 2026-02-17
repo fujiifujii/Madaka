@@ -3,42 +3,48 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout/layout}">
 <head>
+<link rel="stylesheet" th:href="@{/css/style.css}">
 <meta charset="UTF-8">
 <title>検索画面</title>
 </head>
 <body>
-  <h1 th:text="${AppName}"></h1>
+	<h1 th:text="${AppName}"></h1>
 	<div class="search-container">
 		<h2>検索</h2>
-		<form th:action="@{/search}" th:object="${searchForm}" method="post">
+		<form th:action="@{/madaka/search}" th:object="${searchForm}"
+			method="post">
 			<div class="search-date">
 				<label for="date">日付：</label>
 				<span class="search-date-from">
-					<input type="number" th:field="*{fromYear}"  th:value="''" min="1900" max="2100" /><label for="year">年</label>
-					<input type="number" th:field="*{fromMonth}" th:value="''" min="1" max="12" /><label for="month">月</label>
-					<input type="number" th:field="*{fromDay}" th:value="''" min="1" max="31" /><label for="day">日</label>
+					<input type="number" th:field="*{fromYear}" th:value="''"min="1900" max="2100" />
+					<label for="year">年</label>
+					<input type="number" th:field="*{fromMonth}" th:value="''" min="1" max="12" />
+					<label for="month">月</label>
+					<input type="number" th:field="*{fromDay}" th:value="''" min="1" max="31" />
+					<label for="day">日</label>
 				</span>
-				<span>　～　</span>
+				<span> ～ </span>
 				<span class="search-date-to">
-					<input type="number" th:field="*{toYear}" th:value="''" min="1900" max="2100" /><label for="year">年</label>
-					<input type="number" th:field="*{toMonth}" th:value="''" min="1" max="12" /><label for="month">月</label>
-					<input type="number" th:field="*{toDay}" th:value="''" min="1" max="31" /><label for="day">日</label>
+				<input type="number" th:field="*{toYear}" th:value="''" min="1900" max="2100" />
+				<label for="year">年</label>
+				<input type="number" th:field="*{toMonth}" th:value="''" min="1" max="12" />
+				<label for="month">月</label>
+				<input type="number" th:field="*{toDay}" th:value="''" min="1" max="31" />
+				<label for="day">日</label>
 				</span>
 			</div>
 			<div class="search-name">
-				<label for="name">氏名：</label>
-				<select name="employeeId" id="employees">
+				<label for="name">氏名：</label> <select name="employeeId"
+					id="employees">
 					<option value="">-- 未選択 --</option>
-					<option th:each="opt : ${employees}"
-					th:value="${opt.value}"
-					th:text="${opt.label}">
-					</option>
+					<option th:each="opt : ${employees}" th:value="${opt.value}"
+						th:text="${opt.label}"></option>
 				</select>
 			</div>
 			<div class="search-reason">
-				<label for="name">遅刻理由：</label>
-				<select th:field="*{reason}">
-					<option value="" th:text="'--選択してください--'" th:if="${searchForm.reason == null}"></option>
+				<label for="name">遅刻理由：</label> <select th:field="*{reason}">
+					<option value="" th:text="'--選択してください--'"
+						th:if="${searchForm.reason == null}"></option>
 					<option
 						th:each="r : ${T(com.example.madaka.util.ReasonType).values()}"
 						th:value="${r}" th:text="${r.label}"></option>
@@ -46,39 +52,41 @@
 			</div>
 			<button type="submit">検索</button>
 		</form>
-		<table>
-			<thead>
+		<div th:if="${#lists.size(results) == 0}">
+			検索結果はありません。
+		</div>
+		<table class="search-table">
+			<thead th:if="${#lists.size(results) > 0}">
 				<tr>
 					<th>日付</th>
 					<th>名前</th>
 					<th>遅刻理由</th>
 					<th>路線</th>
-					<th></th> <!-- 詳細ボタン -->
+					<th></th>
+					<!-- 詳細ボタン -->
 				</tr>
 			</thead>
-			<tbody>
+			<tbody th:if="${#lists.size(results) > 0}">
 				<tr th:each="r : ${results}">
 					<td th:text="${r.late_datetime}">日付</td>
 					<td th:text="${r.emp_name}">名前</td>
 					<td th:text="${r.late_reason}">遅刻理由</td>
 					<td th:text="${r.train_name}">路線</td>
-					<td>
-						<a th:href="@{/detail}">詳細</a>
-<!-- 						<a th:href="@{/detail/{id}(id=${r.id})}">詳細</a> -->
+					<td><a th:href="@{/detail}">詳細</a> <!-- 						<a th:href="@{/detail/{id}(id=${r.id})}">詳細</a> -->
 					</td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
 
-<!-- ページング -->
+	<!-- ページング -->
 	<div>
 		<span th:if="${currentPage > 1}">
-			<a th:href="@{/search(page=${currentPage - 1}, keyword=${searchForm.keyword})}">前へ</a>
+			<a th:href="@{/madaka/search(page=${currentPage - 1})}">前へ</a>
 		</span>
 		<span>ページ [[${currentPage}]] / [[${totalPages}]]</span>
 		<span th:if="${currentPage < totalPages}">
-			<a th:href="@{/search(page=${currentPage + 1}, keyword=${searchForm.keyword})}">次へ</a>
+			<a th:href="@{/madaka/search(page=${currentPage + 1})}">次へ</a>
 		</span>
 	</div>
 </body>

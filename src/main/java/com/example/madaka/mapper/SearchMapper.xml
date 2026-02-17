@@ -31,7 +31,7 @@
 		    );
 	</select>
 	<select id="search"
-		parameterType="com.example.madaka.mapper.SearchMapper"
+		parameterType="com.example.madaka.form.SearchForm"
 		resultType="com.example.madaka.response.SearchResponse">
 		SELECT
 			lat.late_id,
