@@ -6,9 +6,9 @@
 <link th:href="@{/css/style.css}" rel="stylesheet">
 </head>
 <body>
-<div class = 'title'>
+<div class="login-title">
   <h1 th:text="${AppName}"></h1>
-  </div>
+</div>
   <p id = name style="text-align: center;">ログイン</p>
   <div class="login-container">
   <form class="login-form" action="/login" method="post">
@@ -31,5 +31,8 @@
 	</table>
   </form>
   </div>
+  <script>
+  const appName = /*[[${AppName}]]*/ "";
+</script>
 </body>
 </html>

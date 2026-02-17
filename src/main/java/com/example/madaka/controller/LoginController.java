@@ -31,9 +31,10 @@ public class LoginController {
     }
 
 	@RequestMapping("/login")
-	public String open( Model model) {
+	public String open( Model model,HttpSession session) {
 		model.addAttribute("screenName", Const.screenName);
-		model.addAttribute("AppName", Const.AppName);
+		model.addAttribute("appName", Const.appName);
+		session.invalidate();
 	    return "login";
 	  }
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
@@ -41,11 +42,11 @@ public class LoginController {
 		loginInfo(form, session);
 		if (session.getAttribute("loginUser") == null) {
 			model.addAttribute("screenName", Const.screenName);
-			model.addAttribute("AppName", Const.AppName);
+			model.addAttribute("appName", Const.appName);
 			model.addAttribute("empId", form.getEmpId());
 			return "login";
 		}
-		return "menu";
+		return "redirect:/madaka/menu";
 	}
 	@ResponseBody
 	public  void loginInfo(@ModelAttribute LoginForm form, HttpSession session) {

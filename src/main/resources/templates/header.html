@@ -1,15 +1,25 @@
-<header class="site-header">
-  <div class="logo" id="site-title">MySite</div>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<header class="site-header" th:fragment="header">
+  <div class = "title">
+      <h1 th:text="${appName}">勤怠連絡システム</h1>
+  </div>
+
 
   <nav class="nav" id="nav">
     <a href="/index">Home</a>
     <a href="/about">About</a>
-    <a href="/contact">Contact</a>
+    <a href="/madaka/logout">ログアウト</a>
   </nav>
 
   <div class="hamburger" id="hamburger">
     <span></span><span></span><span></span>
   </div>
+
+  <div id="overlay"></div>
 </header>
 
-<div id="overlay"></div>
+</body>
+</html>
