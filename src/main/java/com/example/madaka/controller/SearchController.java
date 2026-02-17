@@ -26,7 +26,7 @@ import jakarta.servlet.http.HttpSession;
  */
 @Controller
 @RequestMapping("/madaka")
-@SessionAttributes({"searchForm", "searchResult"})
+@SessionAttributes({"searchForm", "searchResult", "employees"})
 public class SearchController {
 
     @Autowired
@@ -43,7 +43,6 @@ public class SearchController {
 		LoginResponse loginInfo = (LoginResponse) session.getAttribute("loginUser");
 		//プルダウンに表示するユーザ名を取得
 		List<SelectOption> employees = searchService.findUserNameForSearch(loginInfo);
-		session.setAttribute("employees", employees);
         model.addAttribute("employees", employees);
 		model.addAttribute("searchForm", new SearchForm());
 		model.addAttribute("AppName", Const.appName);
@@ -57,6 +56,7 @@ public class SearchController {
     @PostMapping("/search")
     public String search(
             @ModelAttribute("searchForm") SearchForm form,
+            @ModelAttribute("employees") List<SelectOption> employees,
             Model model) {
 
         // 検索実行
@@ -74,6 +74,7 @@ public class SearchController {
     public String searchPaging(
             @RequestParam("page") int page,
             @ModelAttribute("searchForm") SearchForm form,
+            @ModelAttribute("employees") List<SelectOption> employees,
             @ModelAttribute("searchResult") List<SearchResponse> searchResult,
             Model model) {
 
@@ -96,15 +97,15 @@ public class SearchController {
 
     /** プルダウン用の軽量 DTO（クラス内クラス） */
     public static class SelectOption {
-        private Integer value;
+        private String value;
         private String label;
 
-        public SelectOption(Integer value, String label) {
+        public SelectOption(String value, String label) {
             this.value = value;
             this.label = label;
         }
 
-        public Integer getValue() { return value; }
+        public String getValue() { return value; }
         public String getLabel() { return label; }
     }
 

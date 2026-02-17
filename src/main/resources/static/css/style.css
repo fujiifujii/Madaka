@@ -113,7 +113,7 @@ body {
    検索テーブルデザイン
 =========================== */
 .search-table {
-    width: 100%;
+    width: 66%;
     border-collapse: collapse;
     margin-top: 20px;
     font-size: 14px;
@@ -136,6 +136,11 @@ body {
 .search-table tr:hover {
     background-color: #e6f7ff;
 }
+
+.search-container {
+    margin-bottom: 800px;
+}
+
 
 /* 詳細リンク */
 .detail-link a {

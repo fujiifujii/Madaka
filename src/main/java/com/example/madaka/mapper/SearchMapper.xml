@@ -9,7 +9,7 @@
 		parameterType="com.example.madaka.mapper.SearchMapper"
 		resultType="com.example.madaka.controller.SearchController$SelectOption">
 		SELECT
-			ROW_NUMBER() OVER (ORDER BY e.emp_id) AS value,
+			e.emp_id AS value,
 			CONCAT(e.emp_lname, e.emp_fname) AS lavel
 		FROM
 			madaka.employee_mst e
@@ -30,28 +30,49 @@
 		        (#{departmentId} = '0')
 		    );
 	</select>
-	<select id="search"
-		parameterType="com.example.madaka.form.SearchForm"
-		resultType="com.example.madaka.response.SearchResponse">
-		SELECT
-			lat.late_id,
-			emp.emp_id,
-			CONCAT(emp.emp_lname, ' ', emp.emp_fname) AS emp_name,
-			lat.late_datetime,
-			lat.late_reason,
-			lat.late_min,
-			lat.train_delay_min,
-			lat.train_id,
-			tra.train_name,
-			lat.start_time,
-			lat.update_datetime,
-			lat.note
-		FROM
-			madaka.late_his_tbl AS lat
-		INNER JOIN madaka.employee_mst AS emp
-			ON lat.emp_id = emp.emp_id
-		LEFT JOIN madaka.train_mst AS tra
-			ON lat.train_id = tra.train_id;
+
+	<select id="search" parameterType="map" resultType="com.example.madaka.response.SearchResponse">
+	    SELECT
+	        lat.late_id,
+	        emp.emp_id,
+	        CONCAT(emp.emp_lname, ' ', emp.emp_fname) AS emp_name,
+	        lat.late_datetime,
+	        lat.late_reason,
+	        lat.late_min,
+	        lat.train_delay_min,
+	        lat.train_id,
+	        tra.train_name,
+	        lat.start_time,
+	        lat.update_datetime,
+	        lat.note
+	    FROM
+	        madaka.late_his_tbl AS lat
+	    INNER JOIN madaka.employee_mst AS emp
+	        ON lat.emp_id = emp.emp_id
+	    LEFT JOIN madaka.train_mst AS tra
+	        ON lat.train_id = tra.train_id
+	    <where>
+	        <!-- 日付 From -->
+	        <if test="fromDate != null">
+	            AND lat.late_datetime >= #{fromDate}
+	        </if>
+
+	        <!-- 日付 To -->
+	        <if test="toDate != null">
+	            AND lat.late_datetime &lt;= #{toDate}
+	        </if>
+
+	        <!-- 氏名（社員ID） -->
+	        <if test="employeeId != null and employeeId != ''">
+	            AND lat.emp_id = #{employeeId}
+	        </if>
+
+	        <!-- 遅刻理由 -->
+	        <if test="reason != null and reason != ''">
+	            AND lat.late_reason = #{reason}
+	        </if>
+	    </where>
+	    ORDER BY lat.late_datetime DESC
 	</select>
 
 </mapper>

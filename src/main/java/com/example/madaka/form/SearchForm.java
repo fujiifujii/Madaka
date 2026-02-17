@@ -39,6 +39,8 @@ public class SearchForm {
 	private String name;
 	/** 遅刻理由 */
 	private ReasonType reason;
+    /** 社員ID */
+    private String empId;
 
 	/**
 	 *日付の初期値を当日に設定するコンストラクタ

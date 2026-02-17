@@ -8,6 +8,7 @@
 <title>検索画面</title>
 </head>
 <body>
+<div th:replace="header :: header"></div>
 	<h1 th:text="${AppName}"></h1>
 	<div class="search-container">
 		<h2>検索</h2>
@@ -34,20 +35,17 @@
 				</span>
 			</div>
 			<div class="search-name">
-				<label for="name">氏名：</label> <select name="employeeId"
-					id="employees">
+				<label for="name">氏名：</label>
+				<select th:field="*{empId}">
 					<option value="">-- 未選択 --</option>
-					<option th:each="opt : ${employees}" th:value="${opt.value}"
-						th:text="${opt.label}"></option>
+					<option th:each="opt : ${employees}" th:value="${opt.value}" th:text="${opt.label}"></option>
 				</select>
 			</div>
 			<div class="search-reason">
-				<label for="name">遅刻理由：</label> <select th:field="*{reason}">
-					<option value="" th:text="'--選択してください--'"
-						th:if="${searchForm.reason == null}"></option>
-					<option
-						th:each="r : ${T(com.example.madaka.util.ReasonType).values()}"
-						th:value="${r}" th:text="${r.label}"></option>
+				<label for="name">遅刻理由：</label>
+				<select th:field="*{reason}">
+					<option value="" th:text="'--選択してください--'" th:if="*{reason == null}"></option>
+					<option th:each="r : ${T(com.example.madaka.util.ReasonType).values()}" th:value="${r}" th:text="${r.label}"></option>
 				</select>
 			</div>
 			<button type="submit">検索</button>
@@ -68,19 +66,19 @@
 			</thead>
 			<tbody th:if="${#lists.size(results) > 0}">
 				<tr th:each="r : ${results}">
-					<td th:text="${r.late_datetime}">日付</td>
+					<td th:text="${#temporals.format(r.late_datetime, 'yyyy年MM月dd日')}">日付</td>
 					<td th:text="${r.emp_name}">名前</td>
 					<td th:text="${r.late_reason}">遅刻理由</td>
 					<td th:text="${r.train_name}">路線</td>
-					<td><a th:href="@{/detail}">詳細</a> <!-- 						<a th:href="@{/detail/{id}(id=${r.id})}">詳細</a> -->
-					</td>
+					<td><a th:href="@{/detail}">詳細</a></td>
+					<!-- <a th:href="@{/detail/{id}(id=${r.id})}">詳細</a> -->
 				</tr>
 			</tbody>
 		</table>
 	</div>
 
 	<!-- ページング -->
-	<div>
+	<div class="search-container" th:if="${#lists.size(results) > 0}">
 		<span th:if="${currentPage > 1}">
 			<a th:href="@{/madaka/search(page=${currentPage - 1})}">前へ</a>
 		</span>
@@ -89,5 +87,6 @@
 			<a th:href="@{/madaka/search(page=${currentPage + 1})}">次へ</a>
 		</span>
 	</div>
+	<script src="/js/loadHeader.js"></script>
 </body>
 </html>
