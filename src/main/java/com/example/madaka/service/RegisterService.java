@@ -6,9 +6,9 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.madaka.form.RegisterForm;
 import com.example.madaka.mapper.RegisterMapper;
 import com.example.madaka.repository.RegisterRepository;
-import com.example.madaka.response.RegisterResponse;
 
 @Service
 public class RegisterService {
@@ -22,7 +22,7 @@ public class RegisterService {
 	 * @param form 登録フォーム
 	 * @param empId 社員ID
 	 */
-	public void register(RegisterResponse form, String empId) {
+	public void register(RegisterForm form, String empId) {
 		// late_idの生成：社員ID(10桁) + タイムスタンプ(yyMMdd HHmmss) + 連番2桁
 		String lateId = generateLateId(empId);
 
@@ -31,9 +31,9 @@ public class RegisterService {
 		repository.setLateId(lateId);
 		repository.setEmpId(empId);
 		repository.setLateDatetime(LocalDateTime.of(form.getDate(), form.getStartTime()));
-		repository.setLateReason(form.getReason());
-		repository.setLateMin(form.getDelayMinutes());
-		repository.setTrainDelayMin(null); // TRAIN_DELAY_MINはnullを挿入
+		repository.setLateReason(form.getLateReason());
+		repository.setLateMin(null);//到着時に計算する
+		repository.setTrainDelayMin(form.getTrainDelayMinutes());
 		repository.setTrainId(form.getTrainId());
 		repository.setStartTime(form.getStartTime());
 		repository.setUpdateDatetime(LocalDateTime.now());

@@ -25,8 +25,8 @@
 <div></div>
 
 
-			<label for="reason">遅刻理由</label> <select id="reason" class="input"
-				th:field="*{reason}">
+			<label for="lateReason">遅刻理由</label> <select id="lateReason" class="input"
+				th:field="*{lateReason}">
 				<option value="">選択してください</option>
 				<option value="1">電車遅延</option>
 				<option value="2">体調不良</option>
@@ -44,7 +44,7 @@
 
 			<label for="delay-min">遅延時間</label> <input id="delay-min"
 				type="number" class="input" inputmode="numeric"
-				th:field="*{delayMinutes}" th:disabled="*{reason !='1'}" />分<br>
+				th:field="*{trainDelayMinutes}" th:disabled="*{lateReason !='1'}" />分<br>
 
 <label for="start-time">始業時間</label>
 <input id="start-time"
@@ -69,17 +69,17 @@
 	<script>
     // 遅刻理由による活性/非活性制御（クライアント側）
     (function () {
-      const reason   = document.getElementById('reason');
+      const lateReason   = document.getElementById('lateReason');
       const line     = document.getElementById('line');
       const delayMin = document.getElementById('delay-min');
 
       function applyEnableState() {
-        const isTrainDelay = reason.value === '1';
+        const isTrainDelay = lateReason.value === '1';
         line.disabled = !isTrainDelay;
         delayMin.disabled = !isTrainDelay;
         if (!isTrainDelay) { line.value = ''; delayMin.value = ''; }
       }
-      reason.addEventListener('change', applyEnableState);
+      lateReason.addEventListener('change', applyEnableState);
       // 初期表示時にも適用（サーバ側 disabled と二重で安全）
       applyEnableState();
     })();

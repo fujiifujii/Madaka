@@ -16,8 +16,8 @@ public class RegisterForm {
 	private String lateReason;
     // 電車ID
     private String trainId;
-	// 遅刻時間
-	private Integer delayMinutes;
+	// 遅延時間
+	private Integer trainDelayMinutes;
 	// 始業時間
 	private LocalTime startTime;
 	// 備考

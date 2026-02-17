@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.example.madaka.form.RegisterForm;
 import com.example.madaka.repository.TrainMaster;
 import com.example.madaka.response.LoginResponse;
 import com.example.madaka.response.RegisterResponse;
@@ -62,7 +63,7 @@ public class RegisterController {
 
 	    // ★ 登録ボタン押下（POSTリクエスト）を処理するメソッド
 	    @PostMapping("/register")
-	    public String register(@Validated RegisterResponse form,
+	    public String register(@Validated RegisterForm form,
 	                           BindingResult bindingResult,
 	                           Model model,
 	                           HttpSession session) {

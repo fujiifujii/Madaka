@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.madaka.mapper.RegisterMapper">
+
+  <!-- 1件登録 -->
+  <insert id="insert" parameterType="com.example.madaka.mapper.RegisterRepository">
+    INSERT INTO LATE_HIS_TBL
+      (LATE_ID, EMP_ID, LATE_DATETIME, LATE_REASON, LATE_MIN,
+       TRAIN_DELAY_MIN, TRAIN_ID, START_TIME, UPDATE_DATETIME, NOTE)
+    VALUES
+      (#{lateId}, #{empId}, #{lateDatetime}, #{lateReason}, #{lateMin},
+       #{trainDelayMin}, #{trainId}, #{startTime}, #{updateDatetime}, #{note})
+  </insert>
+
+</mapper>
