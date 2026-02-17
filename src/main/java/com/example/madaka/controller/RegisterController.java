@@ -4,12 +4,13 @@
 package com.example.madaka.controller;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.madaka.form.RegisterForm;
 import com.example.madaka.repository.EmployeeMaster;
+import com.example.madaka.repository.TeamMaster;
 import com.example.madaka.repository.TrainMaster;
 import com.example.madaka.response.LoginResponse;
 import com.example.madaka.response.RegisterResponse;
@@ -32,6 +34,11 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/madaka")
 public class RegisterController {
+	private static final String ROLE_GENERAL_EMPLOYEE = "1";
+	private static final String ROLE_CHIEF = "2";
+	private static final String ROLE_LEADER = "3";
+	private static final String ROLE_ASSISTANT_MANAGER = "4";
+	private static final String ROLE_MANAGER = "5";
 
 	@Autowired
     private RegisterService registerService;
@@ -50,70 +57,41 @@ public class RegisterController {
 	  public String show(@ModelAttribute("registerModel") RegisterResponse registerModel,
 	                     Model model,
 	                     HttpSession session) {
-
-		  // セッションから電車名（trains）を取得
-		  List<TrainMaster> trainMaster = loginService.getTrainMaster();
-
-		  if (trainMaster != null) {
-			  // セッションに電車名を設定
-			  session.setAttribute("trains", trainMaster);
-		  }
-
-		  // 社員マスタ全量を取得
-		  List<EmployeeMaster> employeeMaster = loginService.getEmployeeMaster();
-		  model.addAttribute("employeeList", employeeMaster);
-
-		  // ログインユーザーIDを取得
-		  LoginResponse loginUser = (LoginResponse) session.getAttribute("loginUser");
-		  if (loginUser != null) {
-			  model.addAttribute("loginEmpId", loginUser.getEmpId());
-		  }
+		  prepareRegisterLikeScreenModel(model, session);
 
 	      return "register";
 	  }
 
-	    // ★ 登録ボタン押下（POSTリクエスト）を処理するメソッド
+	    // 登録ボタン押下時の処理
 	    @PostMapping("/register")
-	    public String register(@Validated RegisterForm form,
-	                           BindingResult bindingResult,
+	    public String register(RegisterForm form,
 	                           Model model,
 	                           HttpSession session) {
-
-	        // 1. 【バリデーションチェック】
-	        if (bindingResult.hasErrors()) {
-	            // エラーがある場合、フォームを再表示してエラーメッセージを表示する
-	            // 再表示に必要なデータをModelに追加
-	            List<TrainMaster> trainMaster = loginService.getTrainMaster();
-	            if (trainMaster != null) {
-	                model.addAttribute("trainList", trainMaster);
-	            }
-	            return "register";
+	        // セッションからログイン情報（社員ID）を取得
+	        LoginResponse loginUser = (LoginResponse) session.getAttribute("loginUser");
+	        if (loginUser == null) {
+	        	model.addAttribute("errorMessage", "ログイン情報が見つかりません。");
+	        	return "register";
 	        }
 
-	        // 2. 【ビジネスロジックの実行】
-//	        try {
-	            // セッションからログイン情報（社員ID）を取得
-	            LoginResponse loginUser = (LoginResponse) session.getAttribute("loginUser");
+	        // 登録処理を実行
+	        String lateId = registerService.register(form, loginUser.getEmpId());
 
-//	            if (loginUser != null) {
-	                // RegisterServiceを使用して遅刻情報を登録
-	                registerService.register(form, loginUser.getEmpId());
+	        // 登録後の詳細画面表示用に、入力値をそのままセッションへ保持
+	        RegisterResponse registerModel = new RegisterResponse();
+	        registerModel.setLateId(lateId);
+	        registerModel.setEmpId(form.getEmpId() != null && !form.getEmpId().isBlank()
+	        	? form.getEmpId()
+	        	: loginUser.getEmpId());
+	        registerModel.setDate(form.getDate());
+	        registerModel.setLateReason(form.getLateReason());
+	        registerModel.setTrainId(form.getTrainId());
+	        registerModel.setTrainDelayMinutes(form.getTrainDelayMinutes());
+	        registerModel.setStartTime(form.getStartTime());
+	        registerModel.setNote(form.getNote());
+	        session.setAttribute("registerModel", registerModel);
 
-//	                // 登録データをセッションに保持（detail画面で使用）
-//	                session.setAttribute("registerModel", form);
-//	            } else {
-//	                // ログイン情報がない場合はエラーメッセージを表示
-//	                model.addAttribute("errorMessage", "ログイン情報が見つかりません。");
-//	                return "register";
-//	            }
-//
-//	        } catch (Exception e) {
-//	            // 登録処理中に予期せぬエラーが発生した場合
-//	            model.addAttribute("errorMessage", "登録処理中にエラーが発生しました。");
-//	            return "register";
-//	        }
-
-	        // 3. 【処理成功】detail画面へリダイレクト
+	        // 処理成功時は詳細画面へリダイレクト
 	        return "redirect:/madaka/detail";
 	    }
 
@@ -129,5 +107,81 @@ public class RegisterController {
 	        }
 
 	        return "detail";
+	    }
+
+	    private void prepareRegisterLikeScreenModel(Model model, HttpSession session) {
+	    	List<TrainMaster> trainMaster = loginService.getTrainMaster();
+	    	if (trainMaster != null) {
+	    		session.setAttribute("trains", trainMaster);
+	    	}
+
+	    	List<EmployeeMaster> employeeMasterRaw = loginService.getEmployeeMaster();
+	    	final List<EmployeeMaster> employeeMaster = employeeMasterRaw == null ? List.of() : employeeMasterRaw;
+
+	    	LoginResponse loginUser = (LoginResponse) session.getAttribute("loginUser");
+	    	boolean disableEmpSelect = false;
+	    	List<EmployeeMaster> filteredEmployeeList = employeeMaster;
+	    	if (loginUser != null) {
+	    		model.addAttribute("loginEmpId", loginUser.getEmpId());
+
+	    		Optional<EmployeeMaster> loginEmployee = employeeMaster.stream()
+	    			.filter(emp -> emp.getEmpId() != null && emp.getEmpId().equals(loginUser.getEmpId()))
+	    			.findFirst();
+
+	    		filteredEmployeeList = loginEmployee.map(emp -> {
+	    			String role = emp.getRole();
+	    			if (ROLE_GENERAL_EMPLOYEE.equals(role)) {
+	    				return employeeMaster.stream()
+	    					.filter(e -> e.getEmpId() != null && e.getEmpId().equals(emp.getEmpId()))
+	    					.collect(Collectors.toList());
+	    			}
+	    			if (ROLE_CHIEF.equals(role) || ROLE_LEADER.equals(role)) {
+	    				return employeeMaster.stream()
+	    					.filter(e -> e.getTeamId() != null && e.getTeamId().equals(emp.getTeamId()))
+	    					.filter(e -> "1".equals(e.getBelong()))
+	    					.filter(e -> e.getChangeDate() == null || !"9".equals(e.getChangeDate()))
+	    					.collect(Collectors.toList());
+	    			}
+	    			if (ROLE_ASSISTANT_MANAGER.equals(role) || ROLE_MANAGER.equals(role)) {
+	    				List<TeamMaster> teamMasterRaw = loginService.getTeamMaster();
+	    				List<TeamMaster> teamMaster = teamMasterRaw == null ? List.of() : teamMasterRaw;
+
+	    				Optional<String> loginUnitNo = teamMaster.stream()
+	    					.filter(team -> team.getTeamId() != null && team.getTeamId().equals(emp.getTeamId()))
+	    					.map(TeamMaster::getUnitNo)
+	    					.filter(unitNo -> unitNo != null && !unitNo.isBlank())
+	    					.findFirst();
+
+	    				if (loginUnitNo.isEmpty()) {
+	    					return employeeMaster.stream()
+	    						.filter(e -> e.getTeamId() != null && e.getTeamId().equals(emp.getTeamId()))
+	    						.filter(e -> "1".equals(e.getBelong()))
+	    						.filter(e -> e.getEmpStatus() == null || !"9".equals(e.getEmpStatus()))
+	    						.collect(Collectors.toList());
+	    				}
+
+	    				Set<String> unitTeamIds = teamMaster.stream()
+	    					.filter(team -> loginUnitNo.get().equals(team.getUnitNo()))
+	    					.map(TeamMaster::getTeamId)
+	    					.filter(teamId -> teamId != null && !teamId.isBlank())
+	    					.collect(Collectors.toSet());
+
+	    				return employeeMaster.stream()
+	    					.filter(e -> e.getTeamId() != null && unitTeamIds.contains(e.getTeamId()))
+	    					.filter(e -> "1".equals(e.getBelong()))
+	    					.filter(e -> e.getEmpStatus() == null || !"9".equals(e.getEmpStatus()))
+	    					.collect(Collectors.toList());
+	    			}
+	    			return employeeMaster;
+	    	}).orElse(employeeMaster);
+
+	    	disableEmpSelect = loginEmployee
+	    		.map(EmployeeMaster::getRole)
+	    		.map(ROLE_GENERAL_EMPLOYEE::equals)
+	    		.orElse(false);
+	    	}
+
+	    	model.addAttribute("disableEmpSelect", disableEmpSelect);
+	    	model.addAttribute("employeeList", filteredEmployeeList);
 	    }
 }

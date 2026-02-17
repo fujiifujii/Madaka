@@ -13,6 +13,7 @@ public class RegisterResponse {
 
 	private LocalDate date; // 日付
 	private String lateId; // 遅刻ID
+	private String empId; // 社員ID
 	private String lateReason; // 遅刻理由
 	private List<TrainMaster> trainList; // 電車リスト
 	private String trainId; // 電車ID

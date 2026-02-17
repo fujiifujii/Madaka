@@ -4,56 +4,54 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>勤怠連絡システム</title>
-<link rel="stylesheet" th:href="@{../static/css/style.css}" />
+<link th:href="@{/css/style.css}" rel="stylesheet">
 <link rel="stylesheet" th:href="@{../static/css/detail_regist.css}" />
 </head>
 <body>
-	<header class="app-header">
-		<div class="app-header__title">勤怠連絡システム</div>
-	</header>
+  <div th:replace="header :: header"></div>
 
-	<main class="page">
-		<h2 class="section-title">登録</h2>
+  <main class="page">
+    <h2 class="section-title">登録</h2>
 
-		<!-- フォーム: registerModel とバインド -->
-		<form th:action="@{/madaka/register}" th:object="${registerModel}"
-			method="post" class="form">
+    <form th:action="@{/madaka/register}" th:object="${registerModel}"
+      method="post" class="form">
 <label for="date">日付</label>
 <input id="date" type="date"
     class="input" name="date"
     th:value="*{date} ?: ${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
 <div></div>
-			<label for="empName">社員名</label>
-			<select id="empName" class="input" name="empId">
-				<option value="">選択してください</option>
-				<option th:each="emp : ${employeeList}"
-					th:value="${emp.empId}"
-					th:text="${emp.empLeame} + ' ' + ${emp.empFname}"
-					th:selected="${emp.empId == loginEmpId}"></option>
-			</select>
-			<div></div>
+      <label for="empName">社員名</label>
+      <select id="empName" class="input" name="empId"
+        th:disabled="${disableEmpSelect}">
+        <option value="">選択してください</option>
+        <option th:each="emp : ${employeeList}"
+          th:value="${emp.empId}"
+          th:text="${emp.empLeame} + ' ' + ${emp.empFname}"
+          th:selected="${emp.empId == loginEmpId}"></option>
+      </select>
+      <div></div>
 
 
-			<label for="lateReason">遅刻理由</label> <select id="lateReason" class="input"
-				th:field="*{lateReason}">
-				<option value="">選択してください</option>
-				<option value="1">電車遅延</option>
-				<option value="2">体調不良</option>
-				<option value="3">その他</option>
-			</select>
-			<div></div>
+      <label for="lateReason">遅刻理由</label> <select id="lateReason" class="input"
+        th:field="*{lateReason}">
+        <option value="">選択してください</option>
+        <option value="1">電車遅延</option>
+        <option value="2">体調不良</option>
+        <option value="3">その他</option>
+      </select>
+      <div></div>
 
-			<label for="line">路線名</label> <select id="line" class="input"
-				th:field="*{trainId}">
-				<option value="">選択してください</option>
-				<option th:each="trainJson : ${session.trains}"
-					th:value="${trainJson.trainId}" th:text="${trainJson.trainName}"></option>
-			</select>
-			<div></div>
+      <label for="line">路線名</label> <select id="line" class="input"
+        th:field="*{trainId}">
+        <option value="">選択してください</option>
+        <option th:each="trainJson : ${session.trains}"
+          th:value="${trainJson.trainId}" th:text="${trainJson.trainName}"></option>
+      </select>
+      <div></div>
 
-			<label for="delay-min">遅延時間</label> <input id="delay-min"
-				type="number" class="input" inputmode="numeric"
-				th:field="*{trainDelayMinutes}" th:disabled="*{lateReason !='1'}" />分<br>
+      <label for="delay-min">遅延時間</label> <input id="delay-min"
+        type="number" class="input" inputmode="numeric"
+        th:field="*{trainDelayMinutes}" th:disabled="*{lateReason !='1'}" />分<br>
 
 <label for="start-time">始業時間</label>
 <input id="start-time"
@@ -63,20 +61,19 @@
     th:value="*{startTime} ?: '09:00'" /> <br>
 
 
-				<label for="note">備考</label>
-			<textarea id="note" class="input" placeholder="備考を入力"
-				th:field="*{note}"></textarea>
-			<div></div>
+        <label for="note">備考</label>
+      <textarea id="note" class="input" placeholder="備考を入力"
+        th:field="*{note}"></textarea>
+      <div></div>
 
-			<div class="actions single"
-				style="grid-column: 1/-1; margin-top: 8px;">
-				<button type="submit" class="btn">登録</button>
-			</div>
-		</form>
-	</main>
+      <div class="actions single"
+        style="grid-column: 1/-1; margin-top: 8px;">
+        <button type="submit" class="btn">登録</button>
+      </div>
+    </form>
+  </main>
 
-	<script>
-    // 遅刻理由による活性/非活性制御（クライアント側）
+  <script>
     (function () {
       const lateReason   = document.getElementById('lateReason');
       const line     = document.getElementById('line');
@@ -89,7 +86,6 @@
         if (!isTrainDelay) { line.value = ''; delayMin.value = ''; }
       }
       lateReason.addEventListener('change', applyEnableState);
-      // 初期表示時にも適用（サーバ側 disabled と二重で安全）
       applyEnableState();
     })();
 

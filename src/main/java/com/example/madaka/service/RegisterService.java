@@ -21,8 +21,9 @@ public class RegisterService {
 	 *
 	 * @param form 登録フォーム
 	 * @param empId 社員ID
+	 * @return 生成した遅刻ID
 	 */
-	public void register(RegisterForm form, String empId) {
+	public String register(RegisterForm form, String empId) {
 		// late_idの生成：社員ID(10桁) + タイムスタンプ(yyMMdd HHmmss) + 連番2桁
 		String lateId = generateLateId(empId);
 
@@ -41,6 +42,7 @@ public class RegisterService {
 
 		// DBへインサート
 		registerMapper.insert(repository);
+		return lateId;
 	}
 
 	/**

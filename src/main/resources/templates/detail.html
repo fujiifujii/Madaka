@@ -16,13 +16,14 @@
     <h2 class="section-title">詳細</h2>
 
     <!-- 登録データ表示フォーム（編集不可） -->
-    <form class="form">
+    <form class="form" th:action="@{/madaka/update}" method="post">
+      <input type="hidden" name="lateId" th:value="${registerModel.lateId}" />
       <label for="date">日付</label>
       <input id="date" type="date" class="input" th:value="${registerModel.date}" disabled />
       <div></div>
 
       <label for="reason">遅刻理由</label>
-      <input id="reason" type="text" class="input" th:value="${registerModel.reason}" disabled />
+      <input id="reason" type="text" class="input" th:value="${registerModel.lateReason}" disabled />
       <div></div>
 
       <label for="line">路線名</label>
@@ -30,7 +31,7 @@
       <div></div>
 
       <label for="delay-min">遅延時間</label>
-      <input id="delay-min" type="text" class="input" th:value="${registerModel.delayMinutes} + ' 分'" disabled />
+      <input id="delay-min" type="text" class="input" th:value="|${registerModel.trainDelayMinutes} 分|" disabled />
       <div></div>
 
       <label for="start-time">始業時間</label>
@@ -43,7 +44,7 @@
 
       <!-- 更新ボタンと到着ボタン -->
       <div class="actions" style="grid-column: 1 / -1; margin-top: 8px; display: flex; justify-content: center; gap: 12px;">
-        <button type="button" class="btn">更新</button>
+        <button type="submit" class="btn">更新</button>
         <button type="button" class="btn">到着</button>
       </div>
     </form>
