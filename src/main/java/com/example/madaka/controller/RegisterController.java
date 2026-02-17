@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.madaka.form.RegisterForm;
+import com.example.madaka.repository.EmployeeMaster;
 import com.example.madaka.repository.TrainMaster;
 import com.example.madaka.response.LoginResponse;
 import com.example.madaka.response.RegisterResponse;
@@ -56,6 +57,16 @@ public class RegisterController {
 		  if (trainMaster != null) {
 			  // セッションに電車名を設定
 			  session.setAttribute("trains", trainMaster);
+		  }
+
+		  // 社員マスタ全量を取得
+		  List<EmployeeMaster> employeeMaster = loginService.getEmployeeMaster();
+		  model.addAttribute("employeeList", employeeMaster);
+
+		  // ログインユーザーIDを取得
+		  LoginResponse loginUser = (LoginResponse) session.getAttribute("loginUser");
+		  if (loginUser != null) {
+			  model.addAttribute("loginEmpId", loginUser.getEmpId());
 		  }
 
 	      return "register";

@@ -23,6 +23,15 @@
     class="input" name="date"
     th:value="*{date} ?: ${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
 <div></div>
+			<label for="empName">社員名</label>
+			<select id="empName" class="input" name="empId">
+				<option value="">選択してください</option>
+				<option th:each="emp : ${employeeList}"
+					th:value="${emp.empId}"
+					th:text="${emp.empLeame} + ' ' + ${emp.empFname}"
+					th:selected="${emp.empId == loginEmpId}"></option>
+			</select>
+			<div></div>
 
 
 			<label for="lateReason">遅刻理由</label> <select id="lateReason" class="input"

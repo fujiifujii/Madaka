@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.example.madaka.form.LoginForm;
 import com.example.madaka.mapper.LoginMapper;
 import com.example.madaka.repository.DepartmentMaster;
+import com.example.madaka.repository.EmployeeMaster;
 import com.example.madaka.repository.TeamMaster;
 import com.example.madaka.repository.TrainMaster;
 import com.example.madaka.response.LoginResponse;
@@ -34,6 +35,10 @@ public class LoginService {
 
 	    public List<TrainMaster> getTrainMaster() {
 	        return loginMapper.getTrainMaster();
+	    }
+
+	    public List<EmployeeMaster> getEmployeeMaster() {
+	        return loginMapper.getEmployeeMaster();
 	    }
 
 }

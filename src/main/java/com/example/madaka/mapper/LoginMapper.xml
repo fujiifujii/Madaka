@@ -45,6 +45,26 @@
     <result property="trainName" column="TRAIN_NAME"/>
   </resultMap>
 
+  <!-- 社員マスタ -->
+  <resultMap id="employeeMasterMap" type="com.example.madaka.repository.EmployeeMaster">
+    <id property="empId" column="EMP_ID"/>
+    <result property="departmentId" column="DEPARTMENT_ID"/>
+    <result property="teamId" column="TEAM_ID"/>
+    <result property="empNo" column="EMP_NO"/>
+    <result property="role" column="ROLE"/>
+    <result property="empLeame" column="EMP_LNAME"/>
+    <result property="empFname" column="EMP_FNAME"/>
+    <result property="empLeameKana" column="EMP_LNAME_KANA"/>
+    <result property="empFnameKana" column="EMP_FNAME_KANA"/>
+    <result property="gender" column="GENDER"/>
+    <result property="birthDay" column="BIRTHDAY"/>
+    <result property="startDate" column="START_DATE"/>
+    <result property="belong" column="BELONG"/>
+    <result property="empStatus" column="EMP_STATUS"/>
+    <result property="changeDate" column="CHANGE_DATE"/>
+    <result property="mailAddress" column="MAIL_ADDRESS"/>
+  </resultMap>
+
   <!-- データ取得 -->
   <select id="login" parameterType="com.example.madaka.mapper.LoginMapper" resultMap="loginMap">
     SELECT * FROM madaka.EMPLOYEE_MST LEFT JOIN madaka.LOGIN_TBL on EMPLOYEE_MST.emp_id = LOGIN_TBL.emp_id LEFT JOIN madaka.TEAM_MST on EMPLOYEE_MST.team_id = TEAM_MST.team_id WHERE LOGIN_TBL.emp_id = #{empId} AND LOGIN_TBL.password = #{password}
@@ -57,6 +77,9 @@
   </select>
   <select id="getTrainMaster" resultMap="trainMasterMap">
     SELECT * FROM madaka.TRAIN_MST
+  </select>
+  <select id="getEmployeeMaster" resultMap="employeeMasterMap">
+    SELECT * FROM madaka.EMPLOYEE_MST
   </select>
 
 </mapper>

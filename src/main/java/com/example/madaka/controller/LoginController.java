@@ -45,7 +45,7 @@ public class LoginController {
 			model.addAttribute("empId", form.getEmpId());
 			return "login";
 		}
-		return "main";
+		return "menu";
 	}
 	@ResponseBody
 	public  void loginInfo(@ModelAttribute LoginForm form, HttpSession session) {
