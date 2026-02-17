@@ -3,6 +3,8 @@
  */
 package com.example.madaka.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -34,6 +36,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/madaka")
 public class RegisterController {
+	private static final DateTimeFormatter SLASH_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+	private static final DateTimeFormatter HYPHEN_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	private static final String ROLE_GENERAL_EMPLOYEE = "1";
 	private static final String ROLE_CHIEF = "2";
 	private static final String ROLE_LEADER = "3";
@@ -83,7 +87,7 @@ public class RegisterController {
 	        registerModel.setEmpId(form.getEmpId() != null && !form.getEmpId().isBlank()
 	        	? form.getEmpId()
 	        	: loginUser.getEmpId());
-	        registerModel.setDate(form.getDate());
+	        registerModel.setDate(parseDate(form.getDate()));
 	        registerModel.setLateReason(form.getLateReason());
 	        registerModel.setTrainId(form.getTrainId());
 	        registerModel.setTrainDelayMinutes(form.getTrainDelayMinutes());
@@ -183,5 +187,16 @@ public class RegisterController {
 
 	    	model.addAttribute("disableEmpSelect", disableEmpSelect);
 	    	model.addAttribute("employeeList", filteredEmployeeList);
+	    }
+
+	    private LocalDate parseDate(String dateText) {
+	    	if (dateText == null || dateText.isBlank()) {
+	    		return null;
+	    	}
+	    	try {
+	    		return LocalDate.parse(dateText, SLASH_DATE_FORMATTER);
+	    	} catch (Exception e) {
+	    		return LocalDate.parse(dateText, HYPHEN_DATE_FORMATTER);
+	    	}
 	    }
 }

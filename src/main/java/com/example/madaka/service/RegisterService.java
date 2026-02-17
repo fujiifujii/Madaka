@@ -1,6 +1,8 @@
 package com.example.madaka.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,8 @@ import com.example.madaka.repository.RegisterRepository;
 
 @Service
 public class RegisterService {
+	private static final DateTimeFormatter SLASH_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+	private static final DateTimeFormatter HYPHEN_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
 	@Autowired
 	private RegisterMapper registerMapper;
@@ -31,12 +35,14 @@ public class RegisterService {
 		RegisterRepository repository = new RegisterRepository();
 		repository.setLateId(lateId);
 		repository.setEmpId(empId);
-		repository.setLateDatetime(LocalDateTime.of(form.getDate(), form.getStartTime()));
+		LocalDate registerDate = parseDate(form.getDate());
+		LocalTime startTime = form.getStartTime() != null ? form.getStartTime() : LocalTime.of(9, 0);
+		repository.setLateDatetime(LocalDateTime.of(registerDate, startTime));
 		repository.setLateReason(form.getLateReason());
 		repository.setLateMin(null);//到着時に計算する
 		repository.setTrainDelayMin(form.getTrainDelayMinutes());
 		repository.setTrainId(form.getTrainId());
-		repository.setStartTime(form.getStartTime());
+		repository.setStartTime(startTime);
 		repository.setUpdateDatetime(LocalDateTime.now());
 		repository.setNote(form.getNote());
 
@@ -62,5 +68,16 @@ public class RegisterService {
 		String sequenceNumber = "00";
 
 		return empId + timestamp + sequenceNumber;
+	}
+
+	private LocalDate parseDate(String dateText) {
+		if (dateText == null || dateText.isBlank()) {
+			return LocalDate.now();
+		}
+		try {
+			return LocalDate.parse(dateText, SLASH_DATE_FORMATTER);
+		} catch (Exception e) {
+			return LocalDate.parse(dateText, HYPHEN_DATE_FORMATTER);
+		}
 	}
 }

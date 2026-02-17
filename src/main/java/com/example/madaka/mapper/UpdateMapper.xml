@@ -34,4 +34,18 @@
     WHERE late_id = #{lateId}
   </select>
 
+  <update id="updateByLateId" parameterType="com.example.madaka.repository.RegisterRepository">
+    UPDATE madaka.late_his_tbl
+    SET
+      emp_id = #{empId},
+      late_datetime = #{lateDatetime},
+      late_reason = #{lateReason},
+      train_delay_min = #{trainDelayMin},
+      train_id = #{trainId},
+      start_time = #{startTime},
+      update_datetime = #{updateDatetime},
+      note = #{note}
+    WHERE late_id = #{lateId}
+  </update>
+
 </mapper>

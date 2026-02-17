@@ -6,6 +6,31 @@
 <title>勤怠連絡システム</title>
 <link th:href="@{/css/style.css}" rel="stylesheet">
 <link rel="stylesheet" th:href="@{../static/css/detail_regist.css}" />
+<style>
+  .page {
+    padding-left: 20px;
+  }
+
+  .form {
+    max-width: 760px;
+  }
+
+  .form label,
+  .form .input,
+  .form .btn {
+    font-size: 1.05rem;
+  }
+
+  .form label {
+    display: inline-block;
+    margin-top: 6px;
+    margin-bottom: 3px;
+  }
+
+  .form .input {
+    margin-bottom: 8px;
+  }
+</style>
 </head>
 <body>
   <div th:replace="header :: header"></div>
@@ -13,12 +38,13 @@
   <main class="page">
     <h2 class="section-title">登録</h2>
 
-    <form th:action="@{/madaka/register}" th:object="${registerModel}"
-      method="post" class="form">
+    <form id="registerForm" th:action="@{/madaka/register}" th:object="${registerModel}"
+      method="post" class="form" onsubmit="return validateRegisterForm();">
 <label for="date">日付</label>
-<input id="date" type="date"
+<input id="date" type="text"
     class="input" name="date"
-    th:value="*{date} ?: ${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
+  placeholder="yyyy/MM/dd"
+  th:value="*{date} ?: ${#temporals.format(#temporals.createNow(), 'yyyy/MM/dd')}" />
 <div></div>
       <label for="empName">社員名</label>
       <select id="empName" class="input" name="empId"
@@ -89,6 +115,40 @@
       applyEnableState();
     })();
 
+    function validateRegisterForm() {
+      const date = document.getElementById('date');
+      const empName = document.getElementById('empName');
+      const lateReason = document.getElementById('lateReason');
+      const line = document.getElementById('line');
+
+      if (!date.value) {
+        alert('日付を入力してください。');
+        date.focus();
+        return false;
+      }
+
+      if (!empName.value) {
+        alert('社員名を入力してください。');
+        empName.focus();
+        return false;
+      }
+
+      if (!lateReason.value) {
+        alert('遅刻理由を入力してください。');
+        lateReason.focus();
+        return false;
+      }
+
+      if (lateReason.value === '1' && !line.value) {
+        alert('路線名を選択してください。');
+        line.focus();
+        return false;
+      }
+
+      return window.confirm('登録しますか？');
+    }
+
   </script>
+  <script src="/js/loadHeader.js"></script>
 </body>
 </html>
