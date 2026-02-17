@@ -13,12 +13,13 @@
   <main class="page">
     <h2 class="section-title">登録</h2>
 
-    <form th:action="@{/madaka/register}" th:object="${registerModel}"
-      method="post" class="form">
+    <form id="registerForm" th:action="@{/madaka/register}" th:object="${registerModel}"
+      method="post" class="form" onsubmit="return validateRegisterForm();">
 <label for="date">日付</label>
-<input id="date" type="date"
+<input id="date" type="text"
     class="input" name="date"
-    th:value="*{date} ?: ${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" />
+  placeholder="yyyy/MM/dd"
+  th:value="*{date} ?: ${#temporals.format(#temporals.createNow(), 'yyyy/MM/dd')}" />
 <div></div>
       <label for="empName">社員名</label>
       <select id="empName" class="input" name="empId"
@@ -88,6 +89,32 @@
       lateReason.addEventListener('change', applyEnableState);
       applyEnableState();
     })();
+
+    function validateRegisterForm() {
+      const date = document.getElementById('date');
+      const empName = document.getElementById('empName');
+      const lateReason = document.getElementById('lateReason');
+
+      if (!date.value) {
+        alert('日付を入力してください。');
+        date.focus();
+        return false;
+      }
+
+      if (!empName.value) {
+        alert('社員名を入力してください。');
+        empName.focus();
+        return false;
+      }
+
+      if (!lateReason.value) {
+        alert('遅刻理由を入力してください。');
+        lateReason.focus();
+        return false;
+      }
+
+      return window.confirm('登録しますか？');
+    }
 
   </script>
 </body>

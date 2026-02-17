@@ -13,11 +13,13 @@
   <main class="page">
     <h2 class="section-title">更新</h2>
 
-    <form th:object="${updateModel}" class="form">
+    <form id="updateForm" th:action="@{/madaka/update/submit}" method="post" th:object="${updateModel}" class="form"
+      onsubmit="return validateUpdateForm();">
       <input type="hidden" th:field="*{lateId}" />
 
       <label for="date">日付</label>
-      <input id="date" type="date" class="input" th:field="*{date}" />
+      <input id="date" type="text" class="input" name="date" placeholder="yyyy/MM/dd"
+        th:value="${updateModel.date != null ? #temporals.format(updateModel.date, 'yyyy/MM/dd') : ''}" />
       <div></div>
 
       <label for="empName">社員名</label>
@@ -60,7 +62,7 @@
       <div></div>
 
       <div class="actions single" style="grid-column: 1/-1; margin-top: 8px;">
-        <button type="button" class="btn">更新</button>
+        <button type="submit" class="btn">更新</button>
       </div>
     </form>
   </main>
@@ -84,6 +86,32 @@
       lateReason.addEventListener('change', applyEnableState);
       applyEnableState();
     })();
+
+    function validateUpdateForm() {
+      const date = document.getElementById('date');
+      const empName = document.getElementById('empName');
+      const lateReason = document.getElementById('lateReason');
+
+      if (!date.value) {
+        alert('日付を入力してください。');
+        date.focus();
+        return false;
+      }
+
+      if (!empName.value) {
+        alert('社員名を入力してください。');
+        empName.focus();
+        return false;
+      }
+
+      if (!lateReason.value) {
+        alert('遅刻理由を入力してください。');
+        lateReason.focus();
+        return false;
+      }
+
+      return window.confirm('更新しますか？');
+    }
   </script>
 </body>
 </html>

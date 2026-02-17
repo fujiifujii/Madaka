@@ -5,21 +5,13 @@ import java.time.LocalTime;
 import lombok.Data;
 
 @Data
-public class RegisterForm {
-
-	// 日付
+public class UpdateForm {
+	private String lateId;
 	private String date;
-	// 社員ID
 	private String empId;
-	// 遅刻理由
 	private String lateReason;
-    // 電車ID
-    private String trainId;
-	// 遅延時間
+	private String trainId;
 	private Integer trainDelayMinutes;
-	// 始業時間
 	private LocalTime startTime;
-	// 備考
 	private String note;
-
 }

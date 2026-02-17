@@ -1,5 +1,7 @@
 package com.example.madaka.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.madaka.form.UpdateForm;
 import com.example.madaka.repository.EmployeeMaster;
 import com.example.madaka.repository.RegisterRepository;
 import com.example.madaka.repository.TeamMaster;
@@ -25,6 +28,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/madaka")
 public class UpdateController {
+	private static final DateTimeFormatter SLASH_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+	private static final DateTimeFormatter HYPHEN_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	private static final String ROLE_GENERAL_EMPLOYEE = "1";
 	private static final String ROLE_CHIEF = "2";
 	private static final String ROLE_LEADER = "3";
@@ -69,6 +74,25 @@ public class UpdateController {
 
 		model.addAttribute("updateModel", updateModel);
 		return "update";
+	}
+
+	@PostMapping("/update/submit")
+	public String submitUpdate(UpdateForm form,
+	                           HttpSession session) {
+		updateService.update(form);
+
+		RegisterResponse registerModel = new RegisterResponse();
+		registerModel.setLateId(form.getLateId());
+		registerModel.setEmpId(form.getEmpId());
+		registerModel.setDate(parseDate(form.getDate()));
+		registerModel.setLateReason(form.getLateReason());
+		registerModel.setTrainId(form.getTrainId());
+		registerModel.setTrainDelayMinutes(form.getTrainDelayMinutes());
+		registerModel.setStartTime(form.getStartTime());
+		registerModel.setNote(form.getNote());
+		session.setAttribute("registerModel", registerModel);
+
+		return "redirect:/madaka/detail";
 	}
 
 	private void prepareRegisterLikeScreenModel(Model model, HttpSession session) {
@@ -145,5 +169,16 @@ public class UpdateController {
 
 		model.addAttribute("disableEmpSelect", disableEmpSelect);
 		model.addAttribute("employeeList", filteredEmployeeList);
+	}
+
+	private LocalDate parseDate(String dateText) {
+		if (dateText == null || dateText.isBlank()) {
+			return null;
+		}
+		try {
+			return LocalDate.parse(dateText, SLASH_DATE_FORMATTER);
+		} catch (Exception e) {
+			return LocalDate.parse(dateText, HYPHEN_DATE_FORMATTER);
+		}
 	}
 }
