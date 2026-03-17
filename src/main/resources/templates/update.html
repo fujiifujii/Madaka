@@ -25,6 +25,7 @@
     display: inline-block;
     margin-top: 6px;
     margin-bottom: 3px;
+    vertical-align: top;
   }
 
   .form .input {
@@ -83,7 +84,7 @@
       <br>
 
       <label for="note">備考</label>
-      <textarea id="note" class="input" placeholder="備考を入力" th:field="*{note}"></textarea>
+      <textarea id="note" class="input" placeholder="備考を入力" th:field="*{note}"  style="width: 408px; height: 108px;"></textarea>
       <div></div>
 
       <div class="actions single" style="grid-column: 1/-1; margin-top: 8px;">
