@@ -1,6 +1,5 @@
 package com.example.madaka.controller;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +19,7 @@ import com.example.madaka.repository.TeamMaster;
 import com.example.madaka.repository.TrainMaster;
 import com.example.madaka.response.LoginResponse;
 import com.example.madaka.response.RegisterResponse;
+import com.example.madaka.response.UpdateResponse;
 import com.example.madaka.service.LoginService;
 import com.example.madaka.service.UpdateService;
 
@@ -28,9 +28,6 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/madaka")
 public class UpdateController {
-	// 日付入力許容フォーマット（画面入力の揺れを吸収）
-	private static final DateTimeFormatter SLASH_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-	private static final DateTimeFormatter HYPHEN_DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 	// DBのTIME値を画面表示（HH:mm）に合わせる
 	private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
 	private static final String ROLE_GENERAL_EMPLOYEE = "1";
@@ -52,8 +49,8 @@ public class UpdateController {
 	public String showUpdate(@RequestParam("lateId") String lateId,
 	                         Model model,
 	                         HttpSession session) {
-		// 登録画面と同じ社員プルダウン制御を適用
-		prepareRegisterLikeScreenModel(model, session);
+		// 社員プルダウン制御を適用
+		prepareEmployList(model, session);
 
 		// 遅刻IDで対象データを取得
 		RegisterRepository registerData = updateService.findByLateId(lateId);
@@ -66,7 +63,7 @@ public class UpdateController {
 			return "detail";
 		}
 
-		RegisterResponse updateModel = new RegisterResponse();
+		UpdateResponse updateModel = new UpdateResponse();
 		updateModel.setLateId(registerData.getLateId());
 		updateModel.setEmpId(registerData.getEmpId());
 		if (registerData.getLateDatetime() != null) {
@@ -88,26 +85,14 @@ public class UpdateController {
 
 	// 更新ボタン押下時のDB更新処理
 	@PostMapping("/update/submit")
-	public String submitUpdate(UpdateForm form,
-	                           HttpSession session) {
-		updateService.update(form);
+	public String submitUpdate(UpdateForm form) {
+		String lateId=updateService.update(form);
 
-		RegisterResponse registerModel = new RegisterResponse();
-		registerModel.setLateId(form.getLateId());
-		registerModel.setEmpId(form.getEmpId());
-		registerModel.setDate(parseDate(form.getDate()));
-		registerModel.setLateReason(form.getLateReason());
-		registerModel.setTrainId(form.getTrainId());
-		registerModel.setTrainDelayMinutes(form.getTrainDelayMinutes());
-		registerModel.setStartTime(form.getStartTime());
-		registerModel.setNote(form.getNote());
-		session.setAttribute("registerModel", registerModel);
-
-		return "redirect:/madaka/detail";
+		return "redirect:/madaka/detail="+lateId;
 	}
 
 	// 社員名プルダウンの活性/候補をログイン権限で制御
-	private void prepareRegisterLikeScreenModel(Model model, HttpSession session) {
+	private void prepareEmployList(Model model, HttpSession session) {
 		List<TrainMaster> trainMaster = loginService.getTrainMaster();
 		if (trainMaster != null) {
 			session.setAttribute("trains", trainMaster);
@@ -183,15 +168,4 @@ public class UpdateController {
 		model.addAttribute("employeeList", filteredEmployeeList);
 	}
 
-	// 日付文字列を LocalDate に変換
-	private LocalDate parseDate(String dateText) {
-		if (dateText == null || dateText.isBlank()) {
-			return null;
-		}
-		try {
-			return LocalDate.parse(dateText, SLASH_DATE_FORMATTER);
-		} catch (Exception e) {
-			return LocalDate.parse(dateText, HYPHEN_DATE_FORMATTER);
-		}
-	}
 }

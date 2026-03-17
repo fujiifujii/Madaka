@@ -29,7 +29,7 @@ public class UpdateService {
 	}
 
 	// 画面入力値をDB更新用モデルへ詰め替えて更新
-	public void update(UpdateForm form) {
+	public String update(UpdateForm form) {
 		RegisterRepository repository = new RegisterRepository();
 		LocalDate registerDate = parseDate(form.getDate());
 		// 始業時間未入力時は09:00で補完
@@ -45,6 +45,8 @@ public class UpdateService {
 		repository.setNote(form.getNote());
 
 		updateMapper.updateByLateId(repository);
+
+		return form.getLateId();
 	}
 
 	// 日付文字列を LocalDate に変換
