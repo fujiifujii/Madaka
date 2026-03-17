@@ -1,5 +1,4 @@
 # Maven
-target/
 .classpath
 *.class
 *.properties
@@ -8,3 +7,4 @@ target/
 *.prefs
 .reloadtrigger
 target/
+bin/
