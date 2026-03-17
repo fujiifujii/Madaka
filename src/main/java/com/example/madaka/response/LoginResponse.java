@@ -4,21 +4,21 @@ import lombok.Data;
 
 @Data
 public class LoginResponse {
-	private String empId;
-	private String departmentId;
-	private String teamId;
-	private String empNo;
-	private String role;
-	private String empLname;
-	private String empFname;
-	private String empLnameKana;
-	private String empFnameKana;
-	private String gender;
-	private String birthDay;
-	private String startDate;
-	private String belong;
-	private String empStatus;
-	private String changeDate;
-	private String mailAddress;
-	private String unitNo;
+	private String empId; //社員ID
+	private String departmentId; //	部署
+	private String teamId; //チームID
+	private String empNo; //社員番号
+	private String role; //役職
+	private String empLname; //社員姓
+	private String empFname; //社員名
+	private String empLnameKana; //社員セイ
+	private String empFnameKana; //社員メイ
+	private String gender; //性別
+	private String birthDay; //誕生日
+	private String startDate; //入社日
+	private String belong; //所属
+	private String empStatus; //状態
+	private String changeDate; //状態変更日
+	private String mailAddress; //メールアドレス
+	private String unitNo; //ユニット番号
 }

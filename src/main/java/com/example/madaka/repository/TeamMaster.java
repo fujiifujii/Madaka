@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class TeamMaster {
-	private String teamId;
-	private String teamName;
-	private String unitNo;
+	private String teamId; //チームID
+	private String teamName; //チーム名
+	private String unitNo; //ユニット番号
 }

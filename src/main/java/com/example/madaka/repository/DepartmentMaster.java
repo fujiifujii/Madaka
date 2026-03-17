@@ -6,6 +6,6 @@ import lombok.Data;
 
 @Data
 public class DepartmentMaster {
-	private String departmentId;
-	private String departmentName;
+	private String departmentId; //部署ID
+	private String departmentName; //部署名
 }
