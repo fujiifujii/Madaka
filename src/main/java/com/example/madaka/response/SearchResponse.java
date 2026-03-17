@@ -27,7 +27,7 @@ public class SearchResponse {
     /** 電車遅延分数 */
     private Integer train_delay_min;
     /** 電車ID */
-    private String train;
+    private String trainId;
     /** 電車名 */
     private String train_name;
     /** 始業時間 */

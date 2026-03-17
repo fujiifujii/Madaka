@@ -70,8 +70,7 @@
 					<td th:text="${r.emp_name}">名前</td>
 					<td th:text="${r.late_reason}">遅刻理由</td>
 					<td th:text="${r.train_name}">路線</td>
-					<td><a th:href="@{/detail}">詳細</a></td>
-					<!-- <a th:href="@{/detail/{id}(id=${r.id})}">詳細</a> -->
+					<td><a th:href="@{/detail/{id}(id=${item.id})}">詳細</a></td>
 				</tr>
 			</tbody>
 		</table>
